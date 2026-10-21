@@ -5,196 +5,267 @@
   <img src="https://img.shields.io/badge/TypeScript-5.4-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Vite-5.2-646cff?style=flat-square&logo=vite&logoColor=white" alt="Vite" />
   <img src="https://img.shields.io/badge/license-MIT-ffd700?style=flat-square" alt="MIT" />
-  <img src="https://img.shields.io/badge/dependencies-0-06d6a0?style=flat-square" alt="Zero deps" />
+  <img src="https://img.shields.io/badge/dependencies-0-06d6a0?style=flat-square" alt="Zero runtime dependencies" />
 </p>
 
 <p align="center">
-  A Vue 3 component library focused on micro-interactions and motion.<br />
-  Zero runtime dependencies · Fully typed · Silky out of the box.
+  A Vue 3 component library crafted for silky micro-interactions and modern motion.<br />
+  Zero runtime dependencies · Fully typed · Dark by default, light included · Bilingual docs.
 </p>
 
 <p align="center">
-  <a href="https://liuzhengming.github.io/aura-ui/">Live Demo</a> ·
-  <a href="#english">English</a> ·
-  <a href="#中文">中文</a>
+  <a href="https://liuzhengming.github.io/aura-ui/">Live Demo &amp; Documentation</a>
 </p>
 
 ---
 
-## English
+## Introduction
 
-### What is Aura UI
+Aura UI is a collection of Vue 3 components built around **micro-interactions and motion**. It
+gives interfaces a refined, "alive" feel with almost no effort: magnetic buttons, tilt cards,
+glow borders, a command palette, canvas confetti, and dozens more — all driven by native CSS
+and modern Web APIs, with **zero runtime dependencies** beyond Vue 3 itself.
 
-Aura UI is a set of Vue 3 components built around **micro-interactions and motion**.
-It gives your interface a refined, "alive" feel with almost no effort: magnetic buttons,
-tilt cards, glow borders, a command palette, canvas confetti, and more — all driven by
-native CSS and modern Web APIs, with **zero runtime dependencies**.
+Every component ships with complete TypeScript typings, respects `prefers-reduced-motion`,
+and adapts to both dark and light themes through a single set of CSS custom properties. The
+live demo on this site doubles as the documentation: pick a component from the left menu and
+you get a live example, copy-paste usage, and the full prop reference — in either English or
+中文.
 
-Every component ships with complete TypeScript typings, respects
-`prefers-reduced-motion`, and is tree-shakable.
+## Features
 
-### Features
-
-- **23 components** across micro-interactions, motion, and UI primitives
+- **46 components** across 8 categories: micro-interactions, motion, data entry, data display, feedback, overlay, navigation, and utilities
 - **Zero runtime dependencies** (only Vue 3 itself)
-- **100% TypeScript** with full `props` / `emits` typings
+- **100% TypeScript** with complete `props` / `emits` typings
 - **Composition API** (`<script setup>`) throughout
-- **Accessible**: built-in `prefers-reduced-motion` support
-- **The demo is the docs**: this site is living documentation
+- **Theming by design**: dark is the default, light is one attribute away, every component adapts automatically
+- **Accessible**: built-in `prefers-reduced-motion` support and keyboard-navigable overlays
+- **Bilingual documentation** (English / 中文) with live demos on every page
+- **Tree-shakable**: import only what you use
 
-### Install
+## Installation
 
 ```bash
 npm install aura-ui
 # or
 pnpm add aura-ui
+# or
+yarn add aura-ui
 ```
 
-### Quick start
+## Quick Start
+
+Import the components you need and the bundled stylesheet once at your app entry:
 
 ```ts
 // main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import 'aura-ui/dist/style.css' // if a bundled stylesheet is provided
+import 'aura-ui/dist/style.css'
+import { MagneticButton, GlowCard, useToast, fireConfetti } from 'aura-ui'
 
 createApp(App).mount('#app')
 ```
 
 ```vue
 <script setup lang="ts">
-import { MagneticButton, useToast, fireConfetti } from 'aura-ui'
-
-const toast = useToast()
+import { MagneticButton, RippleButton, GlowCard } from 'aura-ui'
 </script>
 
 <template>
-  <MagneticButton @click="fireConfetti()">Celebrate</MagneticButton>
-  <MagneticButton @click="toast.success('Saved!')">Notify</MagneticButton>
+  <GlowCard>
+    <MagneticButton>Get Started</MagneticButton>
+    <RippleButton variant="solid">Click me</RippleButton>
+  </GlowCard>
 </template>
 ```
 
-### Components
+Toast and Notification use a composable API. Mount their containers once near your app root:
+
+```vue
+<script setup lang="ts">
+import { ToastContainer, Notification, useToast, useNotification } from 'aura-ui'
+
+const toast = useToast()
+const notify = useNotification()
+</script>
+
+<template>
+  <ToastContainer />
+  <Notification />
+
+  <button @click="toast.success('Saved!')">Notify</button>
+  <button @click="notify.success('Deployed', 'Build finished in 12s')">Deploy</button>
+</template>
+```
+
+## Components
 
 | Category | Components |
 | --- | --- |
 | Micro-interactions | `MagneticButton`, `RippleButton`, `GlowCard`, `TiltCard`, `Spotlight` |
-| Motion & display | `GradientText`, `ScrollReveal`, `CountUp`, `Typewriter`, `AuroraBackground`, `Skeleton`, `BlurText`, `Marquee` |
-| UI primitives | `Dialog`, `Switch`, `Progress`, `Tooltip`, `Accordion`, `AccordionItem`, `Tabs`, `Tab`, `ToastContainer`, `CommandPalette` |
-| Composables & utils | `useToast`, `fireConfetti` |
+| Motion &amp; display | `GradientText`, `ScrollReveal`, `CountUp`, `Typewriter`, `AuroraBackground`, `Skeleton`, `BlurText`, `Marquee` |
+| Data entry | `Input`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Slider`, `Select`, `Segmented`, `Rate` |
+| Data display | `Badge`, `Tag`, `Avatar`, `Progress`, `Carousel`, `Timeline` |
+| Feedback | `Dialog`, `Drawer`, `Alert`, `ToastContainer`, `Notification`, `Spinner` |
+| Overlay | `Tooltip`, `Popover`, `Dropdown`, `CommandPalette` |
+| Navigation | `Tabs`, `Tab`, `Accordion`, `AccordionItem`, `Breadcrumb`, `Steps` |
+| Utilities | `Kbd`, `CopyButton` |
 
-### Component highlights
+The library also exports composables and helpers: `useToast`, `useNotification`, `pushToast`,
+`pushNotification`, `fireConfetti`, plus their TypeScript types.
+
+## Highlights
+
+The snippets below reflect the real component APIs (the same ones the demo site documents).
 
 **MagneticButton** — the button gently follows the cursor when hovered.
 
 ```vue
 <MagneticButton>Get Started</MagneticButton>
+<MagneticButton variant="ghost">Ghost</MagneticButton>
+<MagneticButton :strength="0.7">Stronger pull</MagneticButton>
 ```
 
-**Switch** — an animated toggle with sizes and disabled state.
+**GlowCard / TiltCard** — surfaces that react to the pointer.
 
 ```vue
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Switch } from 'aura-ui'
-const on = ref(true)
-</script>
+<GlowCard>
+  <h3>Hover me</h3>
+  <p>A soft light follows your cursor.</p>
+</GlowCard>
 
-<template>
-  <Switch v-model="on" />
-</template>
+<TiltCard :max="20">
+  <h3>3D Tilt</h3>
+  <p>Move your pointer to tilt the card.</p>
+</TiltCard>
 ```
 
-**Progress** — animated progress bar with optional stripes and label.
+**Switch / Slider / Rate** — animated, fully typed form controls.
 
 ```vue
-<Progress :value="64" :height="12" show-label striped />
+<Switch v-model="on" size="lg" />
+<Slider v-model="volume" :min="0" :max="200" :step="5" />
+<Rate v-model="score" :allow-half="true" />
 ```
 
-**Tooltip** — hover/focus tooltip with four placement sides.
+**Select / Segmented** — custom, keyboard-friendly pickers.
 
 ```vue
-<Tooltip text="Hello!" side="top">
-  <Button>Hover me</Button>
-</Tooltip>
+<Select v-model="fruit" :options="[
+  { label: 'Apple', value: 'apple' },
+  { label: 'Banana', value: 'banana' }
+]" />
+
+<Segmented v-model="seg" :options="['Day', 'Week', 'Month']" />
 ```
 
-**Accordion / AccordionItem** — collapsible panels via provide/inject.
+**Dialog / Drawer** — overlays with a springy entrance and backdrop blur.
 
 ```vue
-<Accordion>
-  <AccordionItem title="What is Aura UI?" id="q1">A motion-first Vue library.</AccordionItem>
-  <AccordionItem title="Zero deps?" id="q2">Yes, only Vue 3.</AccordionItem>
-</Accordion>
+<Dialog v-model="open" title="Confirm">
+  Are you sure you want to continue?
+  <template #footer>
+    <button @click="open = false">Cancel</button>
+    <button @click="open = false">Confirm</button>
+  </template>
+</Dialog>
+
+<Drawer v-model="open" title="Settings" side="right">
+  Panel content goes here.
+</Drawer>
 ```
 
-**Tabs / Tab** — tab switcher with a sliding indicator.
+**Tabs / Accordion** — switchable and collapsible panels.
 
 ```vue
 <Tabs>
-  <Tab name="a" label="Overview">Content A</Tab>
-  <Tab name="b" label="Motion">Content B</Tab>
+  <Tab name="overview" label="Overview">...</Tab>
+  <Tab name="api" label="API">...</Tab>
 </Tabs>
+
+<Accordion>
+  <AccordionItem id="a" title="What is Aura UI?">A motion-first Vue library.</AccordionItem>
+  <AccordionItem id="b" title="Is it free?">Yes, MIT licensed.</AccordionItem>
+</Accordion>
 ```
 
-**CommandPalette** — a `Cmd/Ctrl + K` command palette, fully keyboard navigable.
+**CommandPalette** — a `Cmd/Ctrl + K` palette with full keyboard navigation.
 
 ```vue
-<script setup lang="ts">
-import { ref } from 'vue'
-import { CommandPalette, type Command } from 'aura-ui'
-
-const open = ref(false)
-const commands: Command[] = [
-  { id: 'home', title: 'Go to Home', group: 'Navigation' },
-  { id: 'star', title: 'Star on GitHub', group: 'Links' }
-]
-</script>
-
-<template>
-  <CommandPalette v-model="open" :commands="commands" @select="(c) => console.log(c)" />
-</template>
+<CommandPalette v-model="open" :commands="commands" @select="run" />
 ```
 
-**Toast** — push notifications through the `useToast` composable.
+**Tooltip / Popover / Dropdown** — rich overlays anchored to a trigger.
 
-```ts
-import { useToast } from 'aura-ui'
-const toast = useToast()
-toast.success('Saved successfully')
-toast.error('Something went wrong')
+```vue
+<Tooltip text="Hello from the top" side="top">
+  <RippleButton>Hover me</RippleButton>
+</Tooltip>
+
+<Popover title="Account">
+  <template #trigger><RippleButton>Open</RippleButton></template>
+  Manage your profile and settings here.
+</Popover>
+
+<Dropdown :items="items" @select="onSelect">
+  <RippleButton>Menu</RippleButton>
+</Dropdown>
 ```
 
-Mount `<ToastContainer />` once near your app root.
+**Progress / CountUp / Skeleton** — lively data display.
 
-**Confetti** — a lightweight canvas confetti burst.
+```vue
+<Progress :value="65" show-label striped />
+<CountUp :value="1280" />
+<CountUp :value="99.9" :decimals="1" suffix="%" />
+<Skeleton width="100%" height="16px" />
+```
+
+**GradientText / BlurText / Typewriter / ScrollReveal** — text and motion effects.
+
+```vue
+<GradientText>Flowing gradient text</GradientText>
+<BlurText text="Reveal me letter by letter" />
+<Typewriter text="Built with Vue 3 and TypeScript." />
+<ScrollReveal :delay="200" :y="40"><h2>Visible on scroll</h2></ScrollReveal>
+```
+
+**Confetti** — a lightweight canvas burst you can fire from anywhere.
 
 ```ts
 import { fireConfetti } from 'aura-ui'
 fireConfetti()
+fireConfetti({ count: 160, spread: 90 })
 ```
 
-**BlurText** — reveal text letter by letter on scroll.
+## Theming
 
-```vue
-<BlurText text="Revealed on scroll" :stagger="34" />
+Aura UI is built on CSS custom properties. The **dark theme is the default**; switching to
+light is a single attribute on the root element and every component re-skins itself
+automatically — no per-component theme code required:
+
+```ts
+document.documentElement.dataset.theme = 'light' // or 'dark'
 ```
 
-**Marquee** — seamless infinite scroll, speed and direction configurable.
+Override any design token in your own stylesheet to match your brand:
 
-```vue
-<Marquee :speed="48" :gap="14">
-  <span class="chip">Vue 3</span>
-  <span class="chip">TypeScript</span>
-</Marquee>
+```css
+:root {
+  --aura-accent: #7c5cff;
+  --aura-radius: 14px;
+}
 ```
 
-### Design tokens
+## Accessibility
 
-Aura UI is built on CSS custom properties. The dark theme is the default; tokens live in
-`src/style.css` and are easy to override for your own brand.
+- Every animation is wrapped in `prefers-reduced-motion` guards, so users who request reduced
+  motion get a calm, static experience.
+- Overlays (Tooltip, Popover, Dropdown, CommandPalette) support keyboard navigation and
+  focus management, and dismiss on `Esc` or outside click.
 
-### Project structure
+## Project Structure
 
 ```
 aura-ui/
@@ -203,146 +274,40 @@ aura-ui/
 │   ├── lib/             # the component library (this is the package)
 │   │   ├── components/  # all .vue components
 │   │   ├── toast.ts     # useToast store
+│   │   ├── notification.ts # useNotification store
 │   │   ├── confetti.ts  # fireConfetti util
 │   │   └── index.ts     # public entry / barrel
-│   ├── App.vue          # the demo site (also the documentation)
+│   ├── docs/            # the documentation site (also the live demo)
+│   ├── App.vue          # docs shell: sidebar + content + TOC
+│   ├── style.css        # design tokens (dark default + light)
 │   └── main.ts
 ├── index.html
 ├── vite.config.ts
 └── package.json
 ```
 
-### Scripts
+## Scripts
 
 | Script | Description |
 | --- | --- |
-| `npm run dev` | Start the demo site locally |
-| `npm run build` | Build the demo site for production |
+| `npm run dev` | Start the documentation site locally |
+| `npm run build` | Build the documentation site for production (deploys to GitHub Pages) |
 | `npm run type-check` | Run `vue-tsc` type checking |
 | `npm run preview` | Preview the production build |
 
-### Online demo
+## Live Demo
 
-The live demo is deployed to GitHub Pages:
+The live documentation is deployed to GitHub Pages:
 **https://liuzhengming.github.io/aura-ui/**
 
 To enable it on your fork: go to **Settings → Pages → Source → GitHub Actions**.
 
-### Contributing
+## Contributing
 
-Contributions are welcome. Please open an issue or a pull request. Keep components
-framework-light, fully typed, and reduced-motion friendly.
+Contributions are welcome — open an issue or a pull request. When adding or changing a
+component, please keep it framework-light, fully typed, reduced-motion friendly, and covered
+by the type checker. New components should also get a documentation page and a prop table.
 
-### License
-
-[MIT](./LICENSE)
-
----
-
-## 中文
-
-### Aura UI 是什么
-
-Aura UI 是一套围绕**微交互与动效**构建的 Vue 3 组件库。它用极低的成本为你的界面注入
-精致的"生命力"：磁吸按钮、3D 倾斜卡片、跟随光晕、命令面板、Canvas 礼花等——全部由
-原生 CSS 与现代 Web API 驱动，**零运行时依赖**。
-
-每个组件都提供完整的 TypeScript 类型，尊重系统的 `prefers-reduced-motion` 设置，
-并且完全支持 Tree-shaking。
-
-### 特性
-
-- **23 个组件**，覆盖微交互、动效与基础 UI
-- **零运行时依赖**（仅依赖 Vue 3 本身）
-- **100% TypeScript**，完整的 `props` / `emits` 类型
-- 全程使用 **Composition API**（`<script setup>`）
-- **无障碍**：内置减弱动效支持
-- **演示即文档**：本站点就是活文档
-
-### 安装
-
-```bash
-npm install aura-ui
-# 或
-pnpm add aura-ui
-```
-
-### 快速上手
-
-```ts
-// main.ts
-import { createApp } from 'vue'
-import App from './App.vue'
-import 'aura-ui/dist/style.css' // 若提供打包样式
-
-createApp(App).mount('#app')
-```
-
-```vue
-<script setup lang="ts">
-import { MagneticButton, useToast, fireConfetti } from 'aura-ui'
-const toast = useToast()
-</script>
-
-<template>
-  <MagneticButton @click="fireConfetti()">庆祝一下</MagneticButton>
-  <MagneticButton @click="toast.success('已保存')">通知</MagneticButton>
-</template>
-```
-
-### 组件一览
-
-| 分类 | 组件 |
-| --- | --- |
-| 微交互 | `MagneticButton`、`RippleButton`、`GlowCard`、`TiltCard`、`Spotlight` |
-| 动效与展示 | `GradientText`、`ScrollReveal`、`CountUp`、`Typewriter`、`AuroraBackground`、`Skeleton`、`BlurText`、`Marquee` |
-| 基础 UI | `Dialog`、`Switch`、`Progress`、`Tooltip`、`Accordion`、`AccordionItem`、`Tabs`、`Tab`、`ToastContainer`、`CommandPalette` |
-| 组合式与工具 | `useToast`、`fireConfetti` |
-
-用法示例与英文版一致，可参考上方各组件的代码片段。
-
-### 设计变量
-
-Aura UI 基于 CSS 自定义属性构建，默认暗色主题，变量集中在 `src/style.css`，便于按品牌覆盖。
-
-### 目录结构
-
-```
-aura-ui/
-├── .github/workflows/   # GitHub Pages 自动部署
-├── src/
-│   ├── lib/             # 组件库（即发布的包）
-│   │   ├── components/  # 所有 .vue 组件
-│   │   ├── toast.ts     # useToast 状态
-│   │   ├── confetti.ts  # fireConfetti 工具
-│   │   └── index.ts     # 公开入口 / barrel
-│   ├── App.vue          # 演示站（也是文档）
-│   └── main.ts
-├── index.html
-├── vite.config.ts
-└── package.json
-```
-
-### 脚本
-
-| 脚本 | 说明 |
-| --- | --- |
-| `npm run dev` | 本地启动演示站 |
-| `npm run build` | 生产构建演示站 |
-| `npm run type-check` | 运行 `vue-tsc` 类型检查 |
-| `npm run preview` | 预览生产构建 |
-
-### 在线演示
-
-已通过 GitHub Pages 部署：
-**https://liuzhengming.github.io/aura-ui/**
-
-在你的 Fork 中开启：进入 **Settings → Pages → Source → GitHub Actions**。
-
-### 贡献
-
-欢迎提交 Issue 或 Pull Request。组件请保持轻量、完整类型、并兼容减弱动效。
-
-### 许可证
+## License
 
 [MIT](./LICENSE)

@@ -112,3 +112,46 @@ h1, h2, h3, h4, p {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ============================================================
+   亮色主题：仅重映射设计 token，所有组件通过 var() 自动适配
+   ============================================================ */
+[data-theme='light'] {
+  --aura-bg: #f6f7fb;
+  --aura-bg-soft: #ffffff;
+  --aura-bg-elev: #ffffff;
+  --aura-surface: rgba(15, 18, 40, 0.03);
+  --aura-surface-2: rgba(15, 18, 40, 0.06);
+  --aura-border: rgba(15, 18, 40, 0.10);
+  --aura-border-strong: rgba(15, 18, 40, 0.18);
+
+  --aura-text: #16161f;
+  --aura-text-dim: #56566a;
+  --aura-text-faint: #8a8a9a;
+
+  --aura-shadow: 0 24px 70px -28px rgba(20, 22, 50, 0.28);
+  --aura-shadow-glow: 0 16px 50px -16px rgba(124, 92, 255, 0.4);
+}
+
+[data-theme='light'] body {
+  background-image:
+    radial-gradient(60vw 60vw at 80% -10%, rgba(124, 92, 255, 0.10), transparent 60%),
+    radial-gradient(50vw 50vw at -10% 10%, rgba(0, 212, 255, 0.08), transparent 60%);
+}
+
+[data-theme='light'] ::-webkit-scrollbar-thumb {
+  background: rgba(15, 18, 40, 0.18);
+}
+[data-theme='light'] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 18, 40, 0.28);
+}
+
+[data-theme='light'] ::selection {
+  background: rgba(124, 92, 255, 0.25);
+  color: #16161f;
+}
+
+/* 主题切换过渡，避免生硬 */
+html {
+  transition: background-color 0.35s var(--aura-ease), color 0.35s var(--aura-ease);
+}
