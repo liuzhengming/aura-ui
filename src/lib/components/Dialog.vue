@@ -35,6 +35,9 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
           <div class="aura-dialog__body">
             <slot />
           </div>
+          <div v-if="$slots.footer" class="aura-dialog__foot">
+            <slot name="footer" />
+          </div>
         </div>
       </div>
     </Transition>
@@ -85,6 +88,12 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
 .aura-dialog__body {
   color: var(--aura-text-dim);
   line-height: 1.7;
+}
+.aura-dialog__foot {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
 }
 .aura-dialog-enter-active,
 .aura-dialog-leave-active {

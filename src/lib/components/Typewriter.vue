@@ -3,52 +3,32 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const props = withDefaults(
   defineProps<{
-    words: string[]
-    typeSpeed?: number
-    deleteSpeed?: number
-    pause?: number
+    text?: string
+    speed?: number
   }>(),
-  { typeSpeed: 90, deleteSpeed: 45, pause: 1400 }
+  { text: '', speed: 70 }
 )
 
-const text = ref('')
-let wordIndex = 0
+const displayed = ref('')
 let charIndex = 0
-let deleting = false
 let timer = 0
 
-function loop() {
-  const word = props.words[wordIndex % props.words.length]
-  if (!deleting) {
-    charIndex++
-    text.value = word.slice(0, charIndex)
-    if (charIndex === word.length) {
-      deleting = true
-      timer = window.setTimeout(loop, props.pause)
-    } else {
-      timer = window.setTimeout(loop, props.typeSpeed)
-    }
-  } else {
-    charIndex--
-    text.value = word.slice(0, charIndex)
-    if (charIndex === 0) {
-      deleting = false
-      wordIndex++
-      timer = window.setTimeout(loop, 320)
-    } else {
-      timer = window.setTimeout(loop, props.deleteSpeed)
-    }
+function tick() {
+  charIndex++
+  displayed.value = props.text.slice(0, charIndex)
+  if (charIndex < props.text.length) {
+    timer = window.setTimeout(tick, props.speed)
   }
 }
 
 onMounted(() => {
-  timer = window.setTimeout(loop, props.pause)
+  timer = window.setTimeout(tick, props.speed)
 })
 onBeforeUnmount(() => clearTimeout(timer))
 </script>
 
 <template>
-  <span class="aura-type">{{ text }}<span class="aura-type__caret" /></span>
+  <span class="aura-type">{{ displayed }}<span class="aura-type__caret" /></span>
 </template>
 
 <style scoped>

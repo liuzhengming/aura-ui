@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import {
   MagneticButton,
   RippleButton,
@@ -12,22 +12,38 @@ import {
   Typewriter,
   AuroraBackground,
   Skeleton,
-  Dialog
+  BlurText,
+  Marquee,
+  Dialog,
+  Switch,
+  Progress,
+  Tooltip,
+  Accordion,
+  AccordionItem,
+  Tabs,
+  Tab,
+  ToastContainer,
+  CommandPalette,
+  type Command
 } from './lib'
+import { useToast, fireConfetti } from './lib'
 
-const dialogOpen = ref(false)
-const copied = ref(false)
-const timer = ref(0)
+const toast = useToast()
 
-const installCode = `npm install aura-ui`
-const quickStart = `<script setup lang="ts">
+const installCmd = `npm install aura-ui
+# or
+pnpm add aura-ui`
+
+const usageSnippet = `<script setup lang="ts">
 import { MagneticButton } from 'aura-ui'
 <\/script>
 
 <template>
-  <MagneticButton>丝滑一下</MagneticButton>
-<\/template>`
+  <MagneticButton>Get Started</MagneticButton>
+</template>`
 
+const copied = ref(false)
+const timer = ref<number | undefined>(undefined)
 function copy(text: string) {
   navigator.clipboard?.writeText(text).then(() => {
     copied.value = true
@@ -38,534 +54,613 @@ function copy(text: string) {
 
 const features = [
   {
-    title: '零运行时依赖',
-    desc: '只依赖 Vue 3 本身，所有动效由原生 CSS 与现代 Web API 驱动，体积小、可控强。'
+    title: 'Zero runtime dependencies',
+    desc: 'Only Vue 3 itself. Every motion is driven by native CSS and modern Web APIs — small footprint, full control.'
   },
   {
-    title: '全量 TypeScript',
-    desc: '每个组件都提供完整的 props / emits 类型定义，编辑器里即有智能提示与类型校验。'
+    title: 'Fully typed with TypeScript',
+    desc: 'Complete props and emits typings for every component. Smart hints and type-checking right in your editor.'
   },
   {
-    title: '开箱即用的丝滑',
-    desc: '精心调校的缓动曲线与微交互，复制即用，无需再为"手感"反复调试。'
+    title: 'Silky out of the box',
+    desc: 'Carefully tuned easing curves and micro-interactions. Copy and use — no more fiddling for the "feel".'
   },
   {
-    title: '无障碍与降级',
-    desc: '内置 prefers-reduced-motion 适配，尊重系统的减弱动效设置。'
+    title: 'Accessible & graceful',
+    desc: 'Built-in prefers-reduced-motion support that respects the system reduced-motion setting.'
   },
   {
-    title: '组合式 API',
-    desc: '基于 <script setup> 与 Composition API，逻辑清晰、易于扩展。'
+    title: 'Composition API',
+    desc: 'Built on <script setup> and the Composition API — clean logic that is easy to extend.'
   },
   {
-    title: '演示即文档',
-    desc: '这个页面本身就是活文档，所见即所得，降低上手成本。'
+    title: 'The demo is the docs',
+    desc: 'This very page is living documentation. What you see is what you get, lowering the onboarding cost.'
   }
 ]
+
+// Interactive demo state
+const switchOn = ref(true)
+const progress = ref(35)
+function bumpProgress() {
+  progress.value = Math.min(100, progress.value + 18)
+}
+
+const dialogOpen = ref(false)
+
+const paletteOpen = ref(false)
+const commands: Command[] = [
+  { id: 'home', title: 'Go to Home', group: 'Navigation', icon: '⌂' },
+  { id: 'docs', title: 'Open Documentation', group: 'Navigation', icon: '❏' },
+  { id: 'confetti', title: 'Launch Confetti', group: 'Playground', icon: '✦' },
+  { id: 'toast', title: 'Show a Toast', group: 'Playground', icon: '☕' },
+  { id: 'theme', title: 'Toggle Theme', group: 'Settings', icon: '◐' },
+  { id: 'github', title: 'View on GitHub', group: 'Links', icon: '⌨' }
+]
+function onCommand(cmd: Command) {
+  if (cmd.id === 'confetti') fireConfetti()
+  else if (cmd.id === 'toast') toast.success(`Command triggered: ${cmd.title}`)
+  else toast.info(`Selected: ${cmd.title}`)
+}
+
+const marqueeTags = ['Vue 3', 'TypeScript', 'Vite', 'Animation', 'Micro-interaction', 'Composition API', 'Canvas', 'Teleport']
+
+function onGlobalKey(e: KeyboardEvent) {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault()
+    paletteOpen.value = !paletteOpen.value
+  }
+}
+onMounted(() => window.addEventListener('keydown', onGlobalKey))
+onBeforeUnmount(() => window.removeEventListener('keydown', onGlobalKey))
 </script>
 
 <template>
-  <div class="site">
-    <!-- 顶部导航 -->
-    <header class="nav aura-glass">
-      <div class="nav__inner">
-        <a class="brand" href="#top">
-          <span class="brand__dot" /> Aura UI
-        </a>
-        <nav class="nav__links">
-          <a href="#features">特性</a>
-          <a href="#components">组件</a>
-          <a href="#install">安装</a>
-        </nav>
-        <RippleButton variant="outline" class="nav__gh">GitHub</RippleButton>
+  <div class="page">
+    <!-- Hero -->
+    <header class="hero">
+      <AuroraBackground />
+      <Spotlight class="hero__spotlight" />
+      <nav class="nav">
+        <span class="nav__logo">Aura<span>UI</span></span>
+        <div class="nav__links">
+          <a href="#components">Components</a>
+          <a href="#playground">Playground</a>
+          <a href="#install">Install</a>
+          <a href="https://github.com/liuzhengming/aura-ui" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </nav>
+      <div class="hero__inner">
+        <ScrollReveal>
+          <span class="hero__badge">Vue 3 · TypeScript · Zero dependencies</span>
+        </ScrollReveal>
+        <ScrollReveal :delay="80">
+          <h1 class="hero__title">
+            <GradientText>Aura UI</GradientText> <br />
+            <span class="hero__sub">Inject silky motion into Vue</span>
+          </h1>
+        </ScrollReveal>
+        <ScrollReveal :delay="160">
+          <p class="hero__type">
+            <Typewriter text="A micro-interaction & animation component library for Vue 3." :speed="38" />
+          </p>
+        </ScrollReveal>
+        <ScrollReveal :delay="240">
+          <div class="hero__actions">
+            <MagneticButton @click="paletteOpen = true">Open Command Palette</MagneticButton>
+            <RippleButton variant="outline" @click="fireConfetti()">Launch Confetti</RippleButton>
+          </div>
+        </ScrollReveal>
+        <ScrollReveal :delay="320">
+          <div class="hero__stats">
+            <div class="hero__stat"><CountUp :value="23" /><span>components</span></div>
+            <div class="hero__stat"><CountUp :value="0" /><span>runtime deps</span></div>
+            <div class="hero__stat"><CountUp :value="100" suffix="%" /><span>TypeScript</span></div>
+          </div>
+        </ScrollReveal>
       </div>
     </header>
 
-    <!-- Hero -->
-    <section id="top" class="hero">
-      <AuroraBackground />
-      <Spotlight class="hero__spot">
-        <div class="hero__content">
-          <span class="hero__badge">Vue 3 · TypeScript · 零运行时依赖</span>
-          <h1 class="hero__title">
-            <GradientText>为 Vue 注入</GradientText><br />
-            <GradientText>丝滑的灵魂</GradientText>
-          </h1>
-          <p class="hero__sub">
-            一套注重<strong>微交互</strong>与<strong>动效</strong>的组件库 ——
-            <Typewriter :words="['磁吸按钮', '3D 倾斜卡片', '极光背景', '滚动入场', '丝滑弹窗']" />
-          </p>
-          <div class="hero__cta">
-            <MagneticButton @click="dialogOpen = true">查看组件</MagneticButton>
-            <RippleButton variant="outline">在 GitHub 上 Star</RippleButton>
+    <!-- Components gallery -->
+    <main class="container" id="components">
+      <ScrollReveal>
+        <h2 class="section-title">Components</h2>
+        <p class="section-desc">Every component is interactive. Hover, click, and scroll to feel the motion.</p>
+      </ScrollReveal>
+
+      <!-- Buttons -->
+      <section class="grid">
+        <GlowCard class="demo-card">
+          <h3>Magnetic & Ripple Button</h3>
+          <div class="row">
+            <MagneticButton>Get Started</MagneticButton>
+            <RippleButton>Ripple</RippleButton>
+            <RippleButton variant="outline">Outline</RippleButton>
           </div>
-          <div class="hero__stats">
-            <div>
-              <CountUp :value="12" suffix="+" />
-              <small>精选组件</small>
-            </div>
-            <div>
-              <CountUp :value="0" suffix=" 个" />
-              <small>运行时依赖</small>
-            </div>
-            <div>
-              <CountUp :value="100" suffix="%" />
-              <small>TypeScript</small>
+        </GlowCard>
+
+        <GlowCard class="demo-card">
+          <h3>Tooltip</h3>
+          <div class="row">
+            <Tooltip text="Hello from the top" side="top"><RippleButton variant="outline">Top</RippleButton></Tooltip>
+            <Tooltip text="Bottom tip" side="bottom"><RippleButton variant="outline">Bottom</RippleButton></Tooltip>
+            <Tooltip text="Left tip" side="left"><RippleButton variant="outline">Left</RippleButton></Tooltip>
+            <Tooltip text="Right tip" side="right"><RippleButton variant="outline">Right</RippleButton></Tooltip>
+          </div>
+        </GlowCard>
+      </section>
+
+      <!-- Cards -->
+      <section class="grid grid--3">
+        <TiltCard class="demo-card tilt">
+          <h3>Tilt Card</h3>
+          <p>Move your cursor over me — I tilt in 3D with a moving highlight.</p>
+        </TiltCard>
+        <GlowCard class="demo-card">
+          <h3>Glow Card</h3>
+          <p>A soft glow follows your cursor across the surface.</p>
+        </GlowCard>
+        <GlowCard class="demo-card">
+          <h3>Spotlight</h3>
+          <p>Wrap content in a spotlight layer for a focused light effect.</p>
+        </GlowCard>
+      </section>
+
+      <!-- Text & motion -->
+      <section class="grid">
+        <GlowCard class="demo-card">
+          <h3>Gradient & Typewriter & Blur Text</h3>
+          <p class="big"><GradientText>Flowing gradient</GradientText></p>
+          <p><Typewriter text="Typing out a sentence, character by character." :speed="45" /></p>
+          <p class="big"><BlurText text="Revealed letter by letter on scroll" :stagger="34" /></p>
+        </GlowCard>
+        <GlowCard class="demo-card">
+          <h3>CountUp & Marquee</h3>
+          <p class="count"><CountUp :value="128450" :duration="2" /></p>
+          <p class="muted">Downloads this month</p>
+          <div class="marquee-box">
+            <Marquee :speed="48" :gap="14">
+              <span v-for="t in marqueeTags" :key="t" class="chip">{{ t }}</span>
+            </Marquee>
+          </div>
+        </GlowCard>
+      </section>
+
+      <!-- Feedback controls -->
+      <section class="grid">
+        <GlowCard class="demo-card">
+          <h3>Switch</h3>
+          <div class="row">
+            <Switch v-model="switchOn" label="Enable" />
+            <Switch size="sm" v-model="switchOn" />
+            <Switch size="lg" :model-value="false" disabled />
+            <span class="muted">state: {{ switchOn ? 'on' : 'off' }}</span>
+          </div>
+        </GlowCard>
+        <GlowCard class="demo-card">
+          <h3>Progress</h3>
+          <Progress :value="progress" :height="12" show-label striped />
+          <div class="row" style="margin-top: 14px">
+            <RippleButton variant="outline" @click="bumpProgress">Advance +18</RippleButton>
+            <RippleButton variant="outline" @click="progress = 0">Reset</RippleButton>
+          </div>
+        </GlowCard>
+      </section>
+
+      <!-- Layout -->
+      <section class="grid">
+        <GlowCard class="demo-card">
+          <h3>Accordion</h3>
+          <Accordion>
+            <AccordionItem title="What is Aura UI?" id="a1">
+              <p>A Vue 3 component library focused on micro-interactions and motion, with zero runtime dependencies.</p>
+            </AccordionItem>
+            <AccordionItem title="Is it tree-shakable?" id="a2">
+              <p>Yes. Every component is exported independently and fully tree-shakable via the ESM build.</p>
+            </AccordionItem>
+            <AccordionItem title="Does it support TypeScript?" id="a3">
+              <p>Completely. All props and emits are typed, and the demo is the documentation.</p>
+            </AccordionItem>
+          </Accordion>
+        </GlowCard>
+        <GlowCard class="demo-card">
+          <h3>Tabs</h3>
+          <Tabs>
+            <Tab name="overview" label="Overview">
+              <p>Aura UI ships 20+ components covering buttons, cards, text, feedback and layout.</p>
+            </Tab>
+            <Tab name="motion" label="Motion">
+              <p>Spring transitions, tilt, glow, marquee and canvas confetti are all included.</p>
+            </Tab>
+            <Tab name="a11y" label="Accessibility">
+              <p>prefers-reduced-motion is respected across the library.</p>
+            </Tab>
+          </Tabs>
+        </GlowCard>
+      </section>
+
+      <!-- Dialog & Toast & Skeleton -->
+      <section class="grid">
+        <GlowCard class="demo-card">
+          <h3>Dialog & Toast</h3>
+          <div class="row">
+            <RippleButton @click="dialogOpen = true">Open Dialog</RippleButton>
+            <RippleButton variant="outline" @click="toast.success('Saved successfully')">Success</RippleButton>
+            <RippleButton variant="outline" @click="toast.error('Something went wrong')">Error</RippleButton>
+            <RippleButton variant="outline" @click="toast.info('New version available')">Info</RippleButton>
+          </div>
+        </GlowCard>
+        <GlowCard class="demo-card">
+          <h3>Skeleton</h3>
+          <div class="skeleton-row">
+            <Skeleton :circle="true" :width="'48px'" :height="'48px'" />
+            <div style="flex: 1">
+              <Skeleton :width="'70%'" :height="'12px'" style="margin-bottom: 8px" />
+              <Skeleton :width="'100%'" :height="'12px'" />
             </div>
           </div>
-        </div>
-      </Spotlight>
+        </GlowCard>
+      </section>
+    </main>
+
+    <!-- Playground -->
+    <section class="container" id="playground">
+      <ScrollReveal>
+        <h2 class="section-title">Command Palette</h2>
+        <p class="section-desc">
+          Press <kbd>Cmd</kbd>/<kbd>Ctrl</kbd> + <kbd>K</kbd> anywhere, or click the button. Fully keyboard navigable.
+        </p>
+      </ScrollReveal>
+      <ScrollReveal :delay="120">
+        <GlowCard class="demo-card">
+          <div class="row">
+            <MagneticButton @click="paletteOpen = true">Open Palette</MagneticButton>
+            <RippleButton variant="outline" @click="fireConfetti()">Fire Confetti</RippleButton>
+          </div>
+        </GlowCard>
+      </ScrollReveal>
     </section>
 
-    <!-- 特性 -->
-    <section id="features" class="section">
+    <!-- Install -->
+    <section class="container" id="install">
       <ScrollReveal>
-        <h2 class="section__title">为什么是 <GradientText>Aura UI</GradientText></h2>
-        <p class="section__lead">不是为了堆组件数量，而是把"丝滑"这件事做到极致。</p>
+        <h2 class="section-title">Install</h2>
       </ScrollReveal>
-      <div class="grid grid--3">
-        <ScrollReveal v-for="(f, i) in features" :key="f.title" :delay="i * 90">
-          <GlowCard>
-            <div class="feature">
-              <div class="feature__no">{{ String(i + 1).padStart(2, '0') }}</div>
-              <h3>{{ f.title }}</h3>
-              <p>{{ f.desc }}</p>
-            </div>
+      <ScrollReveal :delay="100">
+        <GlowCard class="demo-card code-card">
+          <div class="code-head">
+            <span>Terminal</span>
+            <button class="copy-btn" @click="copy(installCmd)">{{ copied ? 'Copied' : 'Copy' }}</button>
+          </div>
+          <pre><code>{{ installCmd }}</code></pre>
+        </GlowCard>
+      </ScrollReveal>
+      <ScrollReveal :delay="160">
+        <GlowCard class="demo-card code-card">
+          <div class="code-head">
+            <span>Usage</span>
+            <button class="copy-btn" @click="copy(usageSnippet)">{{ copied ? 'Copied' : 'Copy' }}</button>
+          </div>
+          <pre><code>{{ usageSnippet }}</code></pre>
+        </GlowCard>
+      </ScrollReveal>
+    </section>
+
+    <!-- Features -->
+    <section class="container">
+      <ScrollReveal>
+        <h2 class="section-title">Why Aura UI</h2>
+      </ScrollReveal>
+      <div class="features">
+        <ScrollReveal v-for="(f, i) in features" :key="i" :delay="i * 60">
+          <GlowCard class="feature-card">
+            <h3>{{ f.title }}</h3>
+            <p>{{ f.desc }}</p>
           </GlowCard>
         </ScrollReveal>
       </div>
     </section>
 
-    <!-- 组件画廊 -->
-    <section id="components" class="section">
-      <ScrollReveal>
-        <h2 class="section__title">组件画廊</h2>
-        <p class="section__lead">悬停、点击、滚动 —— 每一个都能直接玩。</p>
-      </ScrollReveal>
-      <div class="grid grid--2">
-        <!-- 磁吸按钮 -->
-        <GlowCard>
-          <div class="demo">
-            <div class="demo__head"><span class="demo__name">MagneticButton</span><span class="demo__tag">微交互</span></div>
-            <div class="demo__preview"><MagneticButton>悬停试试</MagneticButton></div>
-            <pre class="demo__code"><code>&lt;MagneticButton&gt;悬停试试&lt;/MagneticButton&gt;</code></pre>
-          </div>
-        </GlowCard>
-
-        <!-- 水波纹 -->
-        <GlowCard>
-          <div class="demo">
-            <div class="demo__head"><span class="demo__name">RippleButton</span><span class="demo__tag">微交互</span></div>
-            <div class="demo__preview"><RippleButton variant="outline">点击看波纹</RippleButton></div>
-            <pre class="demo__code"><code>&lt;RippleButton variant="outline"&gt;点击看波纹&lt;/RippleButton&gt;</code></pre>
-          </div>
-        </GlowCard>
-
-        <!-- 倾斜卡片 -->
-        <GlowCard>
-          <div class="demo">
-            <div class="demo__head"><span class="demo__name">TiltCard</span><span class="demo__tag">3D</span></div>
-            <div class="demo__preview">
-              <TiltCard :max="16">
-                <div class="tilt-demo">移动光标，我将倾斜</div>
-              </TiltCard>
-            </div>
-            <pre class="demo__code"><code>&lt;TiltCard :max="16"&gt;...&lt;/TiltCard&gt;</code></pre>
-          </div>
-        </GlowCard>
-
-        <!-- 光标聚光 -->
-        <GlowCard>
-          <div class="demo">
-            <div class="demo__head"><span class="demo__name">GlowCard</span><span class="demo__tag">光标跟随</span></div>
-            <div class="demo__preview preview--tall">
-              <p class="muted">把光标移到这张卡片上 —— 边框与光晕会跟着你走。</p>
-            </div>
-          </div>
-        </GlowCard>
-
-        <!-- 数字滚动 -->
-        <GlowCard>
-          <div class="demo">
-            <div class="demo__head"><span class="demo__name">CountUp</span><span class="demo__tag">动效</span></div>
-            <div class="demo__preview"><CountUp :value="2026" :duration="1800" /></div>
-            <pre class="demo__code"><code>&lt;CountUp :value="2026" /&gt;</code></pre>
-          </div>
-        </GlowCard>
-
-        <!-- 骨架屏 -->
-        <GlowCard>
-          <div class="demo">
-            <div class="demo__head"><span class="demo__name">Skeleton</span><span class="demo__tag">加载</span></div>
-            <div class="demo__preview skeleton-demo">
-              <Skeleton width="56px" height="56px" circle />
-              <div class="skeleton-demo__lines">
-                <Skeleton width="70%" height="14px" />
-                <Skeleton width="90%" height="14px" />
-                <Skeleton width="40%" height="14px" />
-              </div>
-            </div>
-          </div>
-        </GlowCard>
-      </div>
-    </section>
-
-    <!-- 安装 -->
-    <section id="install" class="section">
-      <ScrollReveal>
-        <h2 class="section__title">三行代码，丝滑起来</h2>
-      </ScrollReveal>
-      <div class="install">
-        <div class="install__block">
-          <div class="install__label">
-            <span>1 · 安装</span>
-            <button class="copy-btn" type="button" @click="copy(installCode)">
-              {{ copied ? '已复制' : '复制' }}
-            </button>
-          </div>
-          <pre class="install__code"><code>{{ installCode }}</code></pre>
-        </div>
-        <div class="install__block">
-          <div class="install__label">
-            <span>2 · 使用</span>
-            <button class="copy-btn" type="button" @click="copy(quickStart)">
-              {{ copied ? '已复制' : '复制' }}
-            </button>
-          </div>
-          <pre class="install__code"><code>{{ quickStart }}</code></pre>
-        </div>
-      </div>
-    </section>
-
     <footer class="footer">
-      <div class="footer__inner">
-        <span class="brand"><span class="brand__dot" /> Aura UI</span>
-        <p class="muted">为 Vue 注入丝滑灵魂 · 用 Vue 3 + TypeScript 构建</p>
-      </div>
+      <p>Aura UI — Inject silky motion into Vue.</p>
+      <p class="muted">MIT License · Built with Vue 3 + TypeScript + Vite</p>
     </footer>
 
-    <Dialog v-model="dialogOpen" title="组件一览">
-      <p>本演示站展示了 Aura UI 的核心组件：磁吸按钮、水波纹、3D 倾斜卡片、光标聚光、渐变文字、滚动入场、数字滚动、打字机、极光背景、骨架屏与丝滑弹窗。</p>
-      <p class="muted">把仓库 clone 下来跑 <code>npm run dev</code>，即可逐个体验。</p>
+    <!-- Overlays -->
+    <Dialog v-model="dialogOpen" title="Aura UI Dialog">
+      <p>This dialog uses a spring-like transition with Teleport and ESC / overlay close.</p>
+      <p class="muted">Try pressing ESC or clicking the overlay to dismiss.</p>
+      <template #footer>
+        <RippleButton @click="dialogOpen = false">Got it</RippleButton>
+      </template>
     </Dialog>
+
+    <CommandPalette v-model="paletteOpen" :commands="commands" @select="onCommand" />
+    <ToastContainer />
   </div>
 </template>
 
 <style scoped>
-.site {
-  min-height: 100vh;
+.page {
+  position: relative;
+  color: #eaeaf2;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
-
-/* 导航 */
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-left: none;
-  border-right: none;
-  border-top: none;
-}
-.nav__inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0.9rem 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-weight: 700;
-  font-size: 1.05rem;
-}
-.brand__dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--aura-gradient);
-  box-shadow: 0 0 16px rgba(124, 92, 255, 0.8);
-}
-.nav__links {
-  display: flex;
-  gap: 1.4rem;
-  margin-left: auto;
-  color: var(--aura-text-dim);
-  font-size: 0.95rem;
-}
-.nav__links a:hover {
-  color: var(--aura-text);
-}
-.nav__gh {
-  font-size: 0.85rem;
-  padding: 0.55rem 1.1rem;
-}
-
 /* Hero */
 .hero {
   position: relative;
-  min-height: 86vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-.hero__spot {
-  width: 100%;
-}
-.hero__content {
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 6rem 1.5rem;
-  text-align: center;
-}
-.hero__badge {
-  display: inline-block;
-  padding: 0.45rem 1rem;
-  border-radius: var(--aura-radius-pill);
-  border: 1px solid var(--aura-border);
-  background: var(--aura-surface);
-  color: var(--aura-text-dim);
-  font-size: 0.85rem;
-  margin-bottom: 1.8rem;
-}
-.hero__title {
-  font-size: clamp(2.6rem, 7vw, 5rem);
-  line-height: 1.05;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-.hero__sub {
-  margin: 1.6rem auto 0;
-  max-width: 560px;
-  color: var(--aura-text-dim);
-  font-size: 1.1rem;
-  line-height: 1.7;
-}
-.hero__sub strong {
-  color: var(--aura-text);
-}
-.hero__cta {
-  margin-top: 2.4rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.hero__stats {
-  margin-top: 3.5rem;
-  display: flex;
-  gap: 3rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.hero__stats > div {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  overflow: hidden;
+  background: #06070f;
 }
-.hero__stats :deep(.aura-count) {
-  font-size: 2.2rem;
+.hero__spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  gap: 18px;
+}
+.nav {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 40px;
+}
+.nav__logo {
+  font-size: 20px;
   font-weight: 800;
-  background: var(--aura-gradient);
+  letter-spacing: 0.5px;
+}
+.nav__logo span {
+  background: linear-gradient(135deg, #7c5cff, #4ad9ff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-.hero__stats small {
-  margin-top: 0.3rem;
-  color: var(--aura-text-faint);
-  font-size: 0.85rem;
+.nav__links {
+  display: flex;
+  gap: 26px;
+}
+.nav__links a {
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+.nav__links a:hover {
+  color: #fff;
+}
+.hero__badge {
+  display: inline-block;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.hero__title {
+  font-size: clamp(40px, 8vw, 86px);
+  font-weight: 800;
+  line-height: 1.05;
+  margin: 0;
+}
+.hero__sub {
+  font-size: clamp(20px, 3vw, 34px);
+  font-weight: 600;
+  background: linear-gradient(135deg, #c9c4ff, #9be7ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero__type {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  min-height: 24px;
+}
+.hero__actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hero__stats {
+  display: flex;
+  gap: 48px;
+  margin-top: 10px;
+}
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero__stat :deep(.aura-count) {
+  font-size: 38px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #7c5cff, #4ad9ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero__stat span {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 4px;
 }
 
-/* 通用区块 */
-.section {
-  max-width: 1120px;
+/* Layout */
+.container {
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 6rem 1.5rem;
+  padding: 90px 24px;
 }
-.section__title {
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
+.section-title {
+  font-size: 32px;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  margin: 0 0 8px;
 }
-.section__lead {
-  margin-top: 0.9rem;
-  color: var(--aura-text-dim);
-  font-size: 1.05rem;
+.section-desc {
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 36px;
+  font-size: 15px;
 }
 .grid {
-  margin-top: 2.6rem;
   display: grid;
-  gap: 1.4rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
 }
 .grid--3 {
   grid-template-columns: repeat(3, 1fr);
 }
-.grid--2 {
-  grid-template-columns: repeat(2, 1fr);
+.demo-card {
+  padding: 22px;
 }
-
-/* 特性 */
-.feature__no {
-  font-family: var(--aura-mono);
-  color: var(--aura-primary);
-  font-size: 0.9rem;
-  margin-bottom: 0.8rem;
+.demo-card h3 {
+  margin: 0 0 14px;
+  font-size: 16px;
 }
-.feature h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.6rem;
+.demo-card p {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin: 8px 0;
 }
-.feature p {
-  color: var(--aura-text-dim);
-  line-height: 1.7;
-  font-size: 0.95rem;
+.demo-card .big {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 10px 0;
 }
-
-/* 演示卡片 */
-.demo {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.demo__head {
+.row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-.demo__name {
-  font-family: var(--aura-mono);
-  font-size: 0.95rem;
-  color: var(--aura-text);
-}
-.demo__tag {
-  font-size: 0.72rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--aura-radius-pill);
-  border: 1px solid var(--aura-border);
-  color: var(--aura-text-faint);
-}
-.demo__preview {
-  min-height: 110px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--aura-radius);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--aura-border);
-}
-.demo__preview.preview--tall {
-  align-items: center;
-  padding: 1.2rem;
-  text-align: center;
-}
-.demo__code {
-  margin: 0;
-  padding: 0.8rem 1rem;
-  border-radius: var(--aura-radius-sm);
-  background: #0c0c14;
-  border: 1px solid var(--aura-border);
-  font-family: var(--aura-mono);
-  font-size: 0.82rem;
-  color: var(--aura-text-dim);
-  overflow-x: auto;
-  white-space: pre;
-}
-.tilt-demo {
-  padding: 1.6rem 2rem;
-  border-radius: var(--aura-radius);
-  background: var(--aura-gradient);
-  color: #fff;
-  font-weight: 600;
-}
-.skeleton-demo {
-  gap: 1rem;
-  align-items: center;
-  justify-content: flex-start;
-}
-.skeleton-demo__lines {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 .muted {
-  color: var(--aura-text-dim);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
 }
-
-/* 安装 */
-.install {
-  margin-top: 2.4rem;
-  display: grid;
-  gap: 1.4rem;
-  grid-template-columns: repeat(2, 1fr);
+.count {
+  font-size: 40px;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(135deg, #7c5cff, #4ad9ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
-.install__block {
-  border-radius: var(--aura-radius);
-  border: 1px solid var(--aura-border);
-  background: var(--aura-bg-soft);
-  overflow: hidden;
+.marquee-box {
+  margin-top: 16px;
+  padding: 12px 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
-.install__label {
+.chip {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  background: rgba(124, 92, 255, 0.16);
+  border: 1px solid rgba(124, 92, 255, 0.35);
+  color: #d6ccff;
+  white-space: nowrap;
+}
+.skeleton-row {
   display: flex;
+  gap: 14px;
   align-items: center;
+}
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.feature-card {
+  padding: 24px;
+  height: 100%;
+}
+.feature-card h3 {
+  margin: 0 0 10px;
+  font-size: 17px;
+}
+.feature-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.65;
+  font-size: 14px;
+}
+.code-card {
+  margin-bottom: 18px;
+}
+.code-head {
+  display: flex;
   justify-content: space-between;
-  padding: 0.7rem 1rem;
-  border-bottom: 1px solid var(--aura-border);
-  color: var(--aura-text-dim);
-  font-size: 0.85rem;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
 }
 .copy-btn {
-  background: var(--aura-surface);
-  border: 1px solid var(--aura-border);
-  color: var(--aura-text-dim);
-  border-radius: var(--aura-radius-sm);
-  padding: 0.25rem 0.7rem;
-  font-size: 0.8rem;
+  padding: 5px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
   cursor: pointer;
-  transition: all 0.2s var(--aura-ease);
+  font-size: 12px;
+  transition: background 0.2s ease;
 }
 .copy-btn:hover {
-  color: var(--aura-text);
-  border-color: var(--aura-primary);
+  background: rgba(255, 255, 255, 0.1);
 }
-.install__code {
+pre {
   margin: 0;
-  padding: 1.1rem 1.2rem;
-  font-family: var(--aura-mono);
-  font-size: 0.88rem;
-  color: var(--aura-primary-2);
-  white-space: pre-wrap;
+  padding: 16px;
+  border-radius: 10px;
+  background: #0b0d18;
+  overflow-x: auto;
+  font-size: 13px;
   line-height: 1.6;
+  color: #c8d3ff;
 }
-
-/* 页脚 */
+kbd {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
 .footer {
-  border-top: 1px solid var(--aura-border);
-  margin-top: 4rem;
-}
-.footer__inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 2.4rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.7);
 }
 .footer .muted {
-  font-size: 0.9rem;
+  margin-top: 6px;
 }
-
-@media (max-width: 860px) {
+@media (max-width: 760px) {
+  .grid,
   .grid--3,
-  .grid--2,
-  .install {
+  .features {
     grid-template-columns: 1fr;
   }
-  .nav__links {
-    display: none;
+  .hero__stats {
+    gap: 28px;
   }
 }
 </style>
