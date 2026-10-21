@@ -5,7 +5,7 @@
 [![Vue 3](https://img.shields.io/badge/Vue-3-42b883?style=flat-square)](https://vuejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-3178c6?style=flat-square)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](./LICENSE)
-[![Stars](https://img.shields.io/github/stars/your-name/aura-ui?style=flat-square)](https://github.com/your-name/aura-ui)
+[![Stars](https://img.shields.io/github/stars/liuzhengming/aura-ui?style=flat-square)](https://github.com/liuzhengming/aura-ui)
 
 Aura UI 不是又一个"大而全"的组件库，而是把**丝滑的手感**做到极致：磁吸按钮、3D 倾斜卡片、光标聚光、流动渐变文字、滚动入场、丝滑弹窗……每一个组件都能直接复制使用，无需再为"动效调参"反复折腾。
 
@@ -59,7 +59,7 @@ import { MagneticButton } from 'aura-ui'
 ## 本地开发
 
 ```bash
-git clone https://github.com/your-name/aura-ui.git
+git clone https://github.com/liuzhengming/aura-ui.git
 cd aura-ui
 npm install
 npm run dev
