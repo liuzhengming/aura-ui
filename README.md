@@ -20,8 +20,9 @@ Aura UI 不是又一个"大而全"的组件库，而是把**丝滑的手感**做
 
 ## 在线演示
 
-> 将仓库部署到 GitHub Pages 后，把链接贴到这里：
-> `https://your-name.github.io/aura-ui/`
+https://liuzhengming.github.io/aura-ui/
+
+> 演示站已配置 `base: './'`，在仓库 **Settings → Pages** 选择 `main` 分支、目录 `/root` 即可开启（首次开启约需 1 分钟生效）。
 
 ## 快速开始
 
