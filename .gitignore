@@ -10,3 +10,6 @@ dist-ssr
 
 # Vite 临时文件
 *.timestamp-*.mjs
+
+# 工具/编辑器工作区数据
+.workbuddy/

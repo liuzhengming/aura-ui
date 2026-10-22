@@ -4,20 +4,20 @@ import CodeBlock from '../components/CodeBlock.vue'
 import GradientText from '../../lib/components/GradientText.vue'
 
 const installCode = `# npm
-npm install aura-ui
+npm install @zhengming365/aura-ui
 
 # pnpm
-pnpm add aura-ui`
+pnpm add @zhengming365/aura-ui`
 
 const pluginCode = `import { createApp } from 'vue'
 import App from './App.vue'
-import 'aura-ui/dist/style.css'
-import { MagneticButton, GlowCard, useToast, fireConfetti } from 'aura-ui'
+import '@zhengming365/aura-ui/dist/style.css'
+import { MagneticButton, GlowCard, useToast, fireConfetti } from '@zhengming365/aura-ui'
 
 createApp(App).mount('#app')`
 
 const usageCode = `<script setup>
-import { MagneticButton, RippleButton, GlowCard } from 'aura-ui'
+import { MagneticButton, RippleButton, GlowCard } from '@zhengming365/aura-ui'
 <\/script>
 
 <template>

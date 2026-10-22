@@ -50,11 +50,11 @@ live example, copy-paste usage, and the full prop reference — in either Englis
 ## Installation
 
 ```bash
-npm install aura-ui
+npm install @zhengming365/aura-ui
 # or
-pnpm add aura-ui
+pnpm add @zhengming365/aura-ui
 # or
-yarn add aura-ui
+yarn add @zhengming365/aura-ui
 ```
 
 ## Quick Start
@@ -67,15 +67,15 @@ Import the components you need and the bundled stylesheet once at your app entry
 // main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import 'aura-ui/dist/style.css'
-import { MagneticButton, GlowCard, useToast, fireConfetti } from 'aura-ui'
+import '@zhengming365/aura-ui/dist/style.css'
+import { MagneticButton, GlowCard, useToast, fireConfetti } from '@zhengming365/aura-ui'
 
 createApp(App).mount('#app')
 ```
 
 ```vue
 <script setup lang="ts">
-import { MagneticButton, RippleButton, GlowCard } from 'aura-ui'
+import { MagneticButton, RippleButton, GlowCard } from '@zhengming365/aura-ui'
 </script>
 
 <template>
@@ -92,8 +92,8 @@ import { MagneticButton, RippleButton, GlowCard } from 'aura-ui'
 // main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import AuraUI from 'aura-ui'
-import 'aura-ui/dist/style.css'
+import AuraUI from '@zhengming365/aura-ui'
+import '@zhengming365/aura-ui/dist/style.css'
 
 createApp(App).use(AuraUI).mount('#app')
 ```
@@ -110,7 +110,7 @@ createApp(App).use(AuraUI).mount('#app')
 ```ts
 // vite.config.ts
 import Components from 'unplugin-vue-components/vite'
-import { AuraUIResolver } from 'aura-ui'
+import { AuraUIResolver } from '@zhengming365/aura-ui'
 
 export default {
   plugins: [
@@ -124,7 +124,7 @@ Toast and Notification use a composable API. Mount their containers once near yo
 
 ```vue
 <script setup lang="ts">
-import { ToastContainer, Notification, useToast, useNotification } from 'aura-ui'
+import { ToastContainer, Notification, useToast, useNotification } from '@zhengming365/aura-ui'
 
 const toast = useToast()
 const notify = useNotification()
@@ -324,7 +324,7 @@ The snippets below reflect the real component APIs (the same ones the demo site 
 **Confetti** — a lightweight canvas burst you can fire from anywhere.
 
 ```ts
-import { fireConfetti } from 'aura-ui'
+import { fireConfetti } from '@zhengming365/aura-ui'
 fireConfetti()
 fireConfetti({ count: 160, spread: 90 })
 ```
@@ -334,8 +334,8 @@ fireConfetti({ count: 160, spread: 90 })
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Form, FormItem, DatePicker, Upload } from 'aura-ui'
-import type { FormRule } from 'aura-ui'
+import { Form, FormItem, DatePicker, Upload } from '@zhengming365/aura-ui'
+import type { FormRule } from '@zhengming365/aura-ui'
 
 const model = ref({ name: '', date: '', files: [] })
 const rules: Record<string, FormRule[]> = {
@@ -362,7 +362,7 @@ const rules: Record<string, FormRule[]> = {
 
 ```vue
 <script setup lang="ts">
-import { ConfigProvider } from 'aura-ui'
+import { ConfigProvider } from '@zhengming365/aura-ui'
 </script>
 
 <template>

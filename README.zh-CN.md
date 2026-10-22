@@ -47,11 +47,11 @@ CSS 与现代 Web API 驱动，**除 Vue 3 本身外零运行时依赖**。
 ## 安装
 
 ```bash
-npm install aura-ui
+npm install @zhengming365/aura-ui
 # 或
-pnpm add aura-ui
+pnpm add @zhengming365/aura-ui
 # 或
-yarn add aura-ui
+yarn add @zhengming365/aura-ui
 ```
 
 ## 快速上手
@@ -64,15 +64,15 @@ yarn add aura-ui
 // main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import 'aura-ui/dist/style.css'
-import { MagneticButton, GlowCard, useToast, fireConfetti } from 'aura-ui'
+import '@zhengming365/aura-ui/dist/style.css'
+import { MagneticButton, GlowCard, useToast, fireConfetti } from '@zhengming365/aura-ui'
 
 createApp(App).mount('#app')
 ```
 
 ```vue
 <script setup lang="ts">
-import { MagneticButton, RippleButton, GlowCard } from 'aura-ui'
+import { MagneticButton, RippleButton, GlowCard } from '@zhengming365/aura-ui'
 </script>
 
 <template>
@@ -89,8 +89,8 @@ import { MagneticButton, RippleButton, GlowCard } from 'aura-ui'
 // main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import AuraUI from 'aura-ui'
-import 'aura-ui/dist/style.css'
+import AuraUI from '@zhengming365/aura-ui'
+import '@zhengming365/aura-ui/dist/style.css'
 
 createApp(App).use(AuraUI).mount('#app')
 ```
@@ -107,7 +107,7 @@ createApp(App).use(AuraUI).mount('#app')
 ```ts
 // vite.config.ts
 import Components from 'unplugin-vue-components/vite'
-import { AuraUIResolver } from 'aura-ui'
+import { AuraUIResolver } from '@zhengming365/aura-ui'
 
 export default {
   plugins: [
@@ -120,7 +120,7 @@ Toast 与 Notification 采用组合式 API，在应用根节点附近挂载一�
 
 ```vue
 <script setup lang="ts">
-import { ToastContainer, Notification, useToast, useNotification } from 'aura-ui'
+import { ToastContainer, Notification, useToast, useNotification } from '@zhengming365/aura-ui'
 
 const toast = useToast()
 const notify = useNotification()
@@ -319,7 +319,7 @@ const notify = useNotification()
 **Confetti** —— 可在任意位置触发的轻量 Canvas 礼花。
 
 ```ts
-import { fireConfetti } from 'aura-ui'
+import { fireConfetti } from '@zhengming365/aura-ui'
 fireConfetti()
 fireConfetti({ count: 160, spread: 90 })
 ```
@@ -329,8 +329,8 @@ fireConfetti({ count: 160, spread: 90 })
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Form, FormItem, DatePicker, Upload } from 'aura-ui'
-import type { FormRule } from 'aura-ui'
+import { Form, FormItem, DatePicker, Upload } from '@zhengming365/aura-ui'
+import type { FormRule } from '@zhengming365/aura-ui'
 
 const model = ref({ name: '', date: '', files: [] })
 const rules: Record<string, FormRule[]> = {
@@ -357,7 +357,7 @@ const rules: Record<string, FormRule[]> = {
 
 ```vue
 <script setup lang="ts">
-import { ConfigProvider } from 'aura-ui'
+import { ConfigProvider } from '@zhengming365/aura-ui'
 </script>
 
 <template>
