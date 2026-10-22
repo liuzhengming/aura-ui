@@ -1,19 +1,28 @@
 {
   "name": "@zhengming365/aura-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Aura UI - a Vue 3 component library crafted for silky micro-interactions and modern motion. Zero runtime dependencies, fully typed, mobile-ready, dark by default.",
   "keywords": [
     "vue",
     "vue3",
+    "vue-component-library",
     "ui",
-    "animation",
-    "micro-interaction",
+    "ui-library",
+    "component-library",
     "components",
+    "design-system",
+    "animation",
+    "motion",
+    "micro-interaction",
+    "interactive",
     "typescript",
-    "component-library"
+    "frontend"
   ],
   "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "author": "liuzhengming",
   "repository": {
     "type": "git",

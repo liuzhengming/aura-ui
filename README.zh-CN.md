@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="https://liuzhengming.github.io/aura-ui/">在线演示与文档</a>
+  <a href="https://liuzhengming.github.io/aura-ui/">在线演示与文档 · Live Demo &amp; Documentation</a>
 </p>
 
 ---
@@ -29,7 +29,7 @@ CSS 与现代 Web API 驱动，**除 Vue 3 本身外零运行时依赖**。
 每个组件都提供完整的 TypeScript 类型，尊重系统的 `prefers-reduced-motion` 设置，借助一组 CSS 自定义
 属性同时适配暗色与亮色主题，并且开箱即用地做好了响应式（触控友好的尺寸、24 栅格、对移动端安全区的
 支持）。本项目的在线演示同时就是文档：从左侧菜单选择组件，即可看到实时示例、可直接复制的用法以及
-完整的属性说明——支持中文与 English 切换。
+完整的属性说明——支持 [中文](./README.zh-CN.md) 与 [English](./README.md) 切换。
 
 ## 特性
 

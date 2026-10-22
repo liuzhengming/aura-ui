@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="https://liuzhengming.github.io/aura-ui/">Live Demo &amp; Documentation</a>
+  <a href="https://liuzhengming.github.io/aura-ui/">Live Demo &amp; Documentation · 在线演示与文档</a>
 </p>
 
 ---
@@ -32,7 +32,8 @@ Every component ships with complete TypeScript typings, respects `prefers-reduce
 to both dark and light themes through a single set of CSS custom properties, and is responsive out
 of the box (touch-friendly sizing, a 24-column grid, and safe-area support for mobile). The live
 demo on this site doubles as the documentation: pick a component from the left menu and you get a
-live example, copy-paste usage, and the full prop reference — in either English or 中文.
+live example, copy-paste usage, and the full prop reference — in either
+[English](./README.md) or [中文](./README.zh-CN.md).
 
 ## Features
 
@@ -437,8 +438,10 @@ aura-ui/
 | --- | --- |
 | `npm run dev` | Start the documentation site locally |
 | `npm run build` | Build the documentation site for production (deploys to GitHub Pages) |
+| `npm run build:lib` | Build the publishable library artifact (ESM + UMD + d.ts + CSS) |
 | `npm run type-check` | Run `vue-tsc` type checking |
 | `npm run preview` | Preview the production build |
+| `npm run prepublishOnly` | Runs `build:lib` automatically before `npm publish` |
 
 ## Live Demo
 
