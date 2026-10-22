@@ -1,5 +1,11 @@
 import type { App, Component } from 'vue'
 
+// Design tokens (:root variables + light theme + utilities).
+// Imported here so the publishable dist/style.css ships the tokens that every
+// component references via var(); without this, consumers must vendor the tokens
+// themselves (see issue with 0.1.x packages missing :root definitions).
+import '../tokens.css'
+
 // Micro-interactions
 import MagneticButton from './components/MagneticButton.vue'
 import RippleButton from './components/RippleButton.vue'
