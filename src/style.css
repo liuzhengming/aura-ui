@@ -36,10 +36,31 @@
     "Hiragino Sans GB", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
   --aura-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
+
+  /* 移动端基础 */
+  --aura-tap-min: 40px; /* 最小可点击区域（移动端可达性） */
+  --aura-safe-top: env(safe-area-inset-top, 0px);
+  --aura-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --aura-safe-left: env(safe-area-inset-left, 0px);
+  --aura-safe-right: env(safe-area-inset-right, 0px);
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* 移动端可达性：去掉点击高亮、避免双击缩放、保证可点击区域 */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+a,
+[role='button'],
+.aura-tap {
+  touch-action: manipulation;
+}
+button {
+  font-family: inherit;
 }
 
 html,

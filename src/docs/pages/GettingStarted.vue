@@ -39,7 +39,7 @@ import { MagneticButton, RippleButton, GlowCard } from 'aura-ui'
 
     <div class="gs__stats">
       <div class="gs__stat">
-        <span class="gs__stat-num">46</span>
+        <span class="gs__stat-num">69</span>
         <span class="gs__stat-label">{{ t('ui.totalComponents') }}</span>
       </div>
       <div class="gs__stat">

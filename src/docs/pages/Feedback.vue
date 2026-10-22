@@ -9,8 +9,62 @@ import Alert from '../../lib/components/Alert.vue'
 import Spinner from '../../lib/components/Spinner.vue'
 import ToastContainer from '../../lib/components/ToastContainer.vue'
 import Notification from '../../lib/components/Notification.vue'
+import Collapse from '../../lib/components/Collapse.vue'
+import CollapseItem from '../../lib/components/CollapseItem.vue'
+import Loading from '../../lib/components/Loading.vue'
+import Backtop from '../../lib/components/Backtop.vue'
 import { useToast } from '../../lib/toast'
 import { useNotification } from '../../lib/notification'
+
+const loadingOn = ref(true)
+const collapseCode = `<Collapse :model-value="['a']">
+  <CollapseItem name="a" title="What is Aura UI?">
+    A Vue 3 component library focused on motion and micro-interactions.
+  </CollapseItem>
+  <CollapseItem name="b" title="Is it free?">Yes, MIT licensed.</CollapseItem>
+</Collapse>
+
+<!-- accordion: only one panel open at a time -->
+<Collapse accordion>
+  <CollapseItem name="1" title="One">First panel</CollapseItem>
+  <CollapseItem name="2" title="Two">Second panel</CollapseItem>
+</Collapse>`
+
+const loadingCode = `<Loading :loading="loading" tip="Loading...">
+  <p>Content being loaded</p>
+</Loading>
+
+<!-- fullscreen mask -->
+<Loading fullscreen :loading="showGlobal" tip="Uploading" />`
+
+const backtopCode = `<!-- tracks window scroll by default -->
+<Backtop :visibility-height="200" />
+
+<!-- or bind to a scroll container -->
+<div class="scroll-box" style="height: 200px; overflow: auto">
+  <div style="height: 600px">tall content</div>
+  <Backtop target=".scroll-box" :visibility-height="40" />
+</div>`
+
+const collapseRows = [
+  { name: 'modelValue', type: '(string | number)[]', default: '[]', desc: 'Active panel names (v-model).' },
+  { name: 'accordion', type: 'boolean', default: 'false', desc: 'Only one panel open at a time.' },
+  { name: 'CollapseItem.name', type: 'string | number', default: '—', desc: 'Unique panel id.' },
+  { name: 'CollapseItem.title', type: 'string', default: "''", desc: 'Header title.' },
+  { name: 'CollapseItem.disabled', type: 'boolean', default: 'false', desc: 'Disable this panel.' }
+]
+const loadingRows = [
+  { name: 'loading', type: 'boolean', default: 'true', desc: 'Show the mask.' },
+  { name: 'tip', type: 'string', default: "''", desc: 'Text under the spinner.' },
+  { name: 'size', type: "'sm'|'md'|'lg'", default: "'md'", desc: 'Spinner size.' },
+  { name: 'fullscreen', type: 'boolean', default: 'false', desc: 'Cover the whole viewport.' }
+]
+const backtopRows = [
+  { name: 'visibilityHeight', type: 'number', default: '200', desc: 'Scroll offset before showing.' },
+  { name: 'right', type: 'string', default: "'24px'", desc: 'Distance from the right edge.' },
+  { name: 'bottom', type: 'string', default: "'24px'", desc: 'Distance from the bottom edge.' },
+  { name: 'target', type: 'string', default: 'window', desc: 'Selector of a scroll container.' }
+]
 
 const dialogOpen = ref(false)
 const drawerOpen = ref(false)
@@ -164,6 +218,53 @@ const spinnerRows = [
         </div>
       </DemoBlock>
       <PropsTable :rows="spinnerRows" />
+    </section>
+
+    <section :id="'collapse'" class="doc-sec">
+      <h2 class="doc-sec__title">{{ compName('collapse') }}</h2>
+      <p class="doc-sec__desc">{{ compDesc('collapse') }}</p>
+      <DemoBlock :title="t('ui.examples')" :description="compDesc('collapse')" :code="collapseCode">
+        <div style="max-width: 520px">
+          <Collapse :model-value="['a']">
+            <CollapseItem name="a" title="What is Aura UI?">
+              A Vue 3 component library focused on motion and micro-interactions.
+            </CollapseItem>
+            <CollapseItem name="b" title="Is it free?">Yes, MIT licensed.</CollapseItem>
+            <CollapseItem name="c" title="Mobile ready?" disabled>Coming soon.</CollapseItem>
+          </Collapse>
+        </div>
+      </DemoBlock>
+      <PropsTable :rows="collapseRows" />
+    </section>
+
+    <section :id="'loading'" class="doc-sec">
+      <h2 class="doc-sec__title">{{ compName('loading') }}</h2>
+      <p class="doc-sec__desc">{{ compDesc('loading') }}</p>
+      <DemoBlock :title="t('ui.examples')" :description="compDesc('loading')" :code="loadingCode">
+        <div style="border: 1px solid var(--aura-border); border-radius: 12px; overflow: hidden; max-width: 520px">
+          <Loading :loading="loadingOn" tip="Loading..." style="height: 120px">
+            <div style="padding: 20px">Loaded content sits here. Toggle loading to mask it.</div>
+          </Loading>
+          <div style="padding: 12px; display: flex; gap: 10px">
+            <button class="demo-btn demo-btn--ghost" type="button" @click="loadingOn = !loadingOn">Toggle loading</button>
+          </div>
+        </div>
+      </DemoBlock>
+      <PropsTable :rows="loadingRows" />
+    </section>
+
+    <section :id="'backtop'" class="doc-sec">
+      <h2 class="doc-sec__title">{{ compName('backtop') }}</h2>
+      <p class="doc-sec__desc">{{ compDesc('backtop') }}</p>
+      <DemoBlock :title="t('ui.examples')" :description="compDesc('backtop')" :code="backtopCode">
+        <div class="aura-backtop-demo" style="position: relative; height: 170px; overflow: auto; border: 1px solid var(--aura-border); border-radius: 12px; background: var(--aura-surface)">
+          <div style="height: 420px; padding: 16px; color: var(--aura-text-dim)">
+            Scroll down inside this box — the back-to-top button appears at the bottom-right corner once you pass the visibility height, then smoothly scrolls back up.
+          </div>
+          <Backtop target=".aura-backtop-demo" :visibility-height="40" />
+        </div>
+      </DemoBlock>
+      <PropsTable :rows="backtopRows" />
     </section>
   </div>
 </template>

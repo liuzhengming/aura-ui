@@ -10,7 +10,7 @@
 
 <p align="center">
   一套为丝滑微交互与现代动效而生的 Vue 3 组件库。<br />
-  零运行时依赖 · 完整类型 · 默认暗色、内置亮色 · 中英双语文档。
+  零运行时依赖 · 完整类型 · 默认暗色、内置亮色 · 移动端就绪 · 中英双语文档。
 </p>
 
 <p align="center">
@@ -21,22 +21,26 @@
 
 ## 项目简介
 
-Aura UI 是一套围绕**微交互与动效**构建的 Vue 3 组件库。它用极低的成本为界面注入精致的
-"生命力"：磁吸按钮、3D 倾斜卡片、跟随光晕、命令面板、Canvas 礼花等——全部由原生 CSS
-与现代 Web API 驱动，**除 Vue 3 本身外零运行时依赖**。
+Aura UI 是一套包含 **69 个 Vue 3 组件**的集合，围绕**微交互、动效与完整的 UI 覆盖**构建。
+它用极低的成本为界面注入精致的"生命力"：磁吸按钮、3D 倾斜卡片、跟随光晕、命令面板、Canvas 礼花，
+以及成熟库（如 Element Plus）所具备的一整套生产级基础组件（表格、表单、导航、布局）——全部由原生
+CSS 与现代 Web API 驱动，**除 Vue 3 本身外零运行时依赖**。
 
-每个组件都提供完整的 TypeScript 类型，尊重系统的 `prefers-reduced-motion` 设置，并借助
-一组 CSS 自定义属性同时适配暗色与亮色主题。本项目的在线演示同时就是文档：从左侧菜单选择
-组件，即可看到实时示例、可直接复制的用法，以及完整的属性说明——支持中文与 English 切换。
+每个组件都提供完整的 TypeScript 类型，尊重系统的 `prefers-reduced-motion` 设置，借助一组 CSS 自定义
+属性同时适配暗色与亮色主题，并且开箱即用地做好了响应式（触控友好的尺寸、24 栅格、对移动端安全区的
+支持）。本项目的在线演示同时就是文档：从左侧菜单选择组件，即可看到实时示例、可直接复制的用法以及
+完整的属性说明——支持中文与 English 切换。
 
 ## 特性
 
-- **46 个组件**，覆盖 8 大分类：微交互、动效、数据录入、数据展示、反馈、浮层、导航、工具
+- **69 个组件**，覆盖 9 大分类：微交互、动效、数据录入、数据展示、反馈、浮层、导航、布局、工具
 - **零运行时依赖**（仅依赖 Vue 3 本身）
 - **100% TypeScript**，完整的 `props` / `emits` 类型
 - 全程使用 **Composition API**（`<script setup>`）
+- **开箱即用**：`app.use(AuraUI)` 全局注册全部组件，或使用 `AuraUIResolver` 实现按需自动引入
+- **移动端就绪**：响应式 24 栅格、触控友好的点击区域、对 `env(safe-area-inset-*)` 的支持
 - **主题化设计**：默认暗色，亮色仅一步之遥，每个组件自动适配
-- **无障碍**：内置减弱动效支持，浮层支持键盘导航
+- **无障碍**：内置减弱动效支持，浮层支持键盘导航，并带 ARIA 角色
 - **中英双语文档**，每个页面均带实时演示
 - **按需引入**：仅打包你用到的组件
 
@@ -52,7 +56,9 @@ yarn add aura-ui
 
 ## 快速上手
 
-按需引入组件，并在应用入口引入一次样式：
+**方式 A —— 显式引入（按需、推荐）：**
+
+在应用入口引入所需组件并引入一次样式：
 
 ```ts
 // main.ts
@@ -77,7 +83,40 @@ import { MagneticButton, RippleButton, GlowCard } from 'aura-ui'
 </template>
 ```
 
-Toast 与 Notification 采用组合式 API，在应用根节点附近挂载一次容器即可：
+**方式 B —— 全局注册（开箱即用）：**
+
+```ts
+// main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import AuraUI from 'aura-ui'
+import 'aura-ui/dist/style.css'
+
+createApp(App).use(AuraUI).mount('#app')
+```
+
+```vue
+<template>
+  <!-- 组件已全局可用，无需 import -->
+  <MagneticButton>开始使用</MagneticButton>
+</template>
+```
+
+**方式 C —— 按需自动引入（无需全局注册、无需手动 import）：**
+
+```ts
+// vite.config.ts
+import Components from 'unplugin-vue-components/vite'
+import { AuraUIResolver } from 'aura-ui'
+
+export default {
+  plugins: [
+    Components({ resolvers: [AuraUIResolver()] })
+  ]
+}
+```
+
+Toast 与 Notification 采用组合式 API，在应用根节点附近挂载一次容器即可（所有方式都需要）：
 
 ```vue
 <script setup lang="ts">
@@ -101,16 +140,18 @@ const notify = useNotification()
 | 分类 | 组件 |
 | --- | --- |
 | 微交互 | `MagneticButton`、`RippleButton`、`GlowCard`、`TiltCard`、`Spotlight` |
-| 动效与展示 | `GradientText`、`ScrollReveal`、`CountUp`、`Typewriter`、`AuroraBackground`、`Skeleton`、`BlurText`、`Marquee` |
+| 动效与展示 | `GradientText`、`Typewriter`、`BlurText`、`ScrollReveal`、`AuroraBackground`、`Marquee`、`CountUp`、`Skeleton` |
 | 数据录入 | `Input`、`Checkbox`、`RadioGroup`、`Radio`、`Switch`、`Slider`、`Select`、`Segmented`、`Rate` |
-| 数据展示 | `Badge`、`Tag`、`Avatar`、`Progress`、`Carousel`、`Timeline` |
-| 反馈 | `Dialog`、`Drawer`、`Alert`、`ToastContainer`、`Notification`、`Spinner` |
+| 数据展示 | `Badge`、`Tag`、`Avatar`、`Progress`、`Carousel`、`Timeline`、`Table`、`Pagination`、`Tree`、`Calendar`、`Descriptions`、`Empty`、`Image`、`Result`、`Link` |
+| 反馈 | `Dialog`、`Drawer`、`Alert`、`ToastContainer`、`Notification`、`Spinner`、`Collapse`、`Loading`、`Backtop` |
 | 浮层 | `Tooltip`、`Popover`、`Dropdown`、`CommandPalette` |
 | 导航 | `Tabs`、`Tab`、`Accordion`、`AccordionItem`、`Breadcrumb`、`Steps` |
-| 工具 | `Kbd`、`CopyButton` |
+| 布局 | `Container`、`Header`、`Aside`、`Main`、`Footer`、`Row`、`Col`、`Space`、`Divider` |
+| 工具 | `Kbd`、`CopyButton`、`Confetti` |
 
-库另导出组合式与工具：`useToast`、`useNotification`、`pushToast`、`pushNotification`、
-`fireConfetti`，以及对应的 TypeScript 类型。
+库另导出组合式与工具：`useToast`、`useNotification`、`pushToast`、`pushNotification`、`fireConfetti`、
+`useBreakpoint`，以及对应的 TypeScript 类型（`ToastType`、`NotificationType`、`TableColumn`、
+`AuraTreeItem`、`DescItem`、`SelectOption`、`Breakpoint`、`ConfettiOptions`）。
 
 ## 组件精选
 
@@ -173,7 +214,7 @@ const notify = useNotification()
 </Drawer>
 ```
 
-**Tabs / Accordion** —— 可切换与可折叠的面板。
+**Tabs / Accordion / Collapse** —— 可切换与可折叠的面板。
 
 ```vue
 <Tabs>
@@ -185,12 +226,26 @@ const notify = useNotification()
   <AccordionItem id="a" title="Aura UI 是什么？">一套动效优先的 Vue 组件库。</AccordionItem>
   <AccordionItem id="b" title="免费吗？">是的，采用 MIT 协议。</AccordionItem>
 </Accordion>
+
+<Collapse :model-value="['a']">
+  <CollapseItem name="a" title="Aura UI 是什么？">一套动效优先的 Vue 组件库。</CollapseItem>
+  <CollapseItem name="b" title="免费吗？">是的，采用 MIT 协议。</CollapseItem>
+</Collapse>
 ```
 
 **CommandPalette** —— 支持全键盘导航的 `Cmd/Ctrl + K` 命令面板。
 
 ```vue
 <CommandPalette v-model="open" :commands="commands" @select="run" />
+```
+
+**Table / Pagination / Tree / Calendar** —— 生产级数据展示。
+
+```vue
+<Table :columns="columns" :data="rows" striped hover bordered />
+<Pagination v-model="page" :total="120" :page-size="10" />
+<Tree :data="treeData" default-expand-all />
+<Calendar v-model="date" />
 ```
 
 **Tooltip / Popover / Dropdown** —— 锚定到触发元素的富内容浮层。
@@ -208,6 +263,23 @@ const notify = useNotification()
 <Dropdown :items="items" @select="onSelect">
   <RippleButton>菜单</RippleButton>
 </Dropdown>
+```
+
+**布局栅格（响应式）** —— 24 栅格与布局容器。
+
+```vue
+<Row :gutter="16">
+  <Col :span="8"><div>span 8</div></Col>
+  <Col :span="8"><div>span 8</div></Col>
+  <Col :span="8"><div>span 8</div></Col>
+</Row>
+
+<!-- 响应式：移动端整行，桌面端占三分之一 -->
+<Row :gutter="16">
+  <Col :xs="24" :md="12" :lg="8"><div>响应式</div></Col>
+  <Col :xs="24" :md="12" :lg="8"><div>响应式</div></Col>
+  <Col :xs="24" :md="12" :lg="8"><div>响应式</div></Col>
+</Row>
 ```
 
 **Progress / CountUp / Skeleton** —— 生动的数据展示。
@@ -228,6 +300,21 @@ const notify = useNotification()
 <ScrollReveal :delay="200" :y="40"><h2>滚动进入视口时显现</h2></ScrollReveal>
 ```
 
+**Image（懒加载 + 预览）/ Result / Empty** —— 精致的展示状态。
+
+```vue
+<Image src="/photo.jpg" width="200px" height="120px" radius="12px" preview />
+<Result status="success" title="成功" subtitle="操作已完成。" />
+<Empty description="暂无数据" />
+```
+
+**Backtop / Loading** —— 反馈辅助组件。
+
+```vue
+<Backtop :visibility-height="200" />
+<Loading :loading="loading" tip="加载中..."><p>内容</p></Loading>
+```
+
 **Confetti** —— 可在任意位置触发的轻量 Canvas 礼花。
 
 ```ts
@@ -235,6 +322,15 @@ import { fireConfetti } from 'aura-ui'
 fireConfetti()
 fireConfetti({ count: 160, spread: 90 })
 ```
+
+## 移动端与响应式
+
+Aura UI 以移动端优先为设计原则：
+
+- 响应式的 `useBreakpoint()` 组合式（`xs / sm / md / lg / xl / xxl`）驱动 `Row` / `Col` 栅格——按断点设置列宽，布局自动重排。
+- 点击区域采用 `--aura-tap-min` 变量，在触控屏上同样舒适。
+- `Backtop`、浮层与固定元素均尊重 `env(safe-area-inset-*)`，避开刘海与底部 home 指示条。
+- 所有组件流畅缩放，文档站点本身也是响应式的。
 
 ## 主题
 
@@ -258,6 +354,7 @@ document.documentElement.dataset.theme = 'light' // 或 'dark'
 
 - 所有动画都包裹在 `prefers-reduced-motion` 判断中，开启"减弱动效"的用户会获得平静、静态的体验。
 - 浮层（Tooltip、Popover、Dropdown、CommandPalette）支持键盘导航与焦点管理，并可在 `Esc` 或点击外部时关闭。
+- 交互组件在合适处使用语义化元素与 ARIA 角色。
 
 ## 目录结构
 
@@ -270,10 +367,12 @@ aura-ui/
 │   │   ├── toast.ts     # useToast 状态
 │   │   ├── notification.ts # useNotification 状态
 │   │   ├── confetti.ts  # fireConfetti 工具
-│   │   └── index.ts     # 公开入口 / barrel
+│   │   ├── breakpoint.ts # useBreakpoint / pickResponsive
+│   │   ├── index.ts     # 公开入口 / barrel（含 install 与 resolver）
+│   │   └── ...
 │   ├── docs/            # 文档站点（也是在线演示）
 │   ├── App.vue          # 文档外壳：侧边栏 + 内容 + 目录
-│   ├── style.css        # 设计变量（默认暗色 + 亮色）
+│   ├── style.css        # 设计变量（默认暗色 + 亮色 + 响应式）
 │   └── main.ts
 ├── index.html
 ├── vite.config.ts

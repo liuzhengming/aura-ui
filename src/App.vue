@@ -14,6 +14,7 @@ import Feedback from './docs/pages/Feedback.vue'
 import Overlay from './docs/pages/Overlay.vue'
 import Navigation from './docs/pages/Navigation.vue'
 import Motion from './docs/pages/Motion.vue'
+import Layout from './docs/pages/Layout.vue'
 import Utilities from './docs/pages/Utilities.vue'
 
 const pages: Record<string, any> = {
@@ -27,6 +28,7 @@ const pages: Record<string, any> = {
   Overlay,
   Navigation,
   Motion,
+  Layout,
   Utilities
 }
 

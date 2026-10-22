@@ -1,64 +1,105 @@
+import type { App, Component } from 'vue'
+
 // Micro-interactions
-export { default as MagneticButton } from './components/MagneticButton.vue'
-export { default as RippleButton } from './components/RippleButton.vue'
-export { default as GlowCard } from './components/GlowCard.vue'
-export { default as TiltCard } from './components/TiltCard.vue'
-export { default as Spotlight } from './components/Spotlight.vue'
+import MagneticButton from './components/MagneticButton.vue'
+import RippleButton from './components/RippleButton.vue'
+import GlowCard from './components/GlowCard.vue'
+import TiltCard from './components/TiltCard.vue'
+import Spotlight from './components/Spotlight.vue'
 
 // Motion & display
-export { default as GradientText } from './components/GradientText.vue'
-export { default as ScrollReveal } from './components/ScrollReveal.vue'
-export { default as CountUp } from './components/CountUp.vue'
-export { default as Typewriter } from './components/Typewriter.vue'
-export { default as AuroraBackground } from './components/AuroraBackground.vue'
-export { default as Skeleton } from './components/Skeleton.vue'
-export { default as BlurText } from './components/BlurText.vue'
-export { default as Marquee } from './components/Marquee.vue'
+import GradientText from './components/GradientText.vue'
+import ScrollReveal from './components/ScrollReveal.vue'
+import CountUp from './components/CountUp.vue'
+import Typewriter from './components/Typewriter.vue'
+import AuroraBackground from './components/AuroraBackground.vue'
+import Skeleton from './components/Skeleton.vue'
+import BlurText from './components/BlurText.vue'
+import Marquee from './components/Marquee.vue'
 
 // Data entry
-export { default as Input } from './components/Input.vue'
-export { default as Checkbox } from './components/Checkbox.vue'
-export { default as RadioGroup } from './components/RadioGroup.vue'
-export { default as Radio } from './components/Radio.vue'
-export { default as Switch } from './components/Switch.vue'
-export { default as Slider } from './components/Slider.vue'
-export { default as Select } from './components/Select.vue'
-export { default as Segmented } from './components/Segmented.vue'
-export { default as Rate } from './components/Rate.vue'
+import Input from './components/Input.vue'
+import Checkbox from './components/Checkbox.vue'
+import RadioGroup from './components/RadioGroup.vue'
+import Radio from './components/Radio.vue'
+import Switch from './components/Switch.vue'
+import Slider from './components/Slider.vue'
+import Select from './components/Select.vue'
+import Segmented from './components/Segmented.vue'
+import Rate from './components/Rate.vue'
 
 // Data display
-export { default as Badge } from './components/Badge.vue'
-export { default as Tag } from './components/Tag.vue'
-export { default as Avatar } from './components/Avatar.vue'
-export { default as Progress } from './components/Progress.vue'
-export { default as Carousel } from './components/Carousel.vue'
-export { default as Timeline } from './components/Timeline.vue'
+import Badge from './components/Badge.vue'
+import Tag from './components/Tag.vue'
+import Avatar from './components/Avatar.vue'
+import Progress from './components/Progress.vue'
+import Carousel from './components/Carousel.vue'
+import Timeline from './components/Timeline.vue'
+import Table from './components/Table.vue'
+import Pagination from './components/Pagination.vue'
+import Tree from './components/Tree.vue'
+import TreeNode from './components/TreeNode.vue'
+import Calendar from './components/Calendar.vue'
+import Descriptions from './components/Descriptions.vue'
+import Empty from './components/Empty.vue'
+import Image from './components/Image.vue'
+import Result from './components/Result.vue'
+import Link from './components/Link.vue'
 
 // Feedback
-export { default as Dialog } from './components/Dialog.vue'
-export { default as Drawer } from './components/Drawer.vue'
-export { default as Alert } from './components/Alert.vue'
-export { default as ToastContainer } from './components/ToastContainer.vue'
-export { default as Notification } from './components/Notification.vue'
-export { default as Spinner } from './components/Spinner.vue'
+import Dialog from './components/Dialog.vue'
+import Drawer from './components/Drawer.vue'
+import Alert from './components/Alert.vue'
+import ToastContainer from './components/ToastContainer.vue'
+import Notification from './components/Notification.vue'
+import Spinner from './components/Spinner.vue'
+import Collapse from './components/Collapse.vue'
+import CollapseItem from './components/CollapseItem.vue'
+import Loading from './components/Loading.vue'
+import Backtop from './components/Backtop.vue'
 
 // Overlay
-export { default as Tooltip } from './components/Tooltip.vue'
-export { default as Popover } from './components/Popover.vue'
-export { default as Dropdown } from './components/Dropdown.vue'
-export { default as CommandPalette } from './components/CommandPalette.vue'
+import Tooltip from './components/Tooltip.vue'
+import Popover from './components/Popover.vue'
+import Dropdown from './components/Dropdown.vue'
+import CommandPalette from './components/CommandPalette.vue'
 
 // Navigation
-export { default as Tabs } from './components/Tabs.vue'
-export { default as Tab } from './components/Tab.vue'
-export { default as Accordion } from './components/Accordion.vue'
-export { default as AccordionItem } from './components/AccordionItem.vue'
-export { default as Breadcrumb } from './components/Breadcrumb.vue'
-export { default as Steps } from './components/Steps.vue'
+import Tabs from './components/Tabs.vue'
+import Tab from './components/Tab.vue'
+import Accordion from './components/Accordion.vue'
+import AccordionItem from './components/AccordionItem.vue'
+import Breadcrumb from './components/Breadcrumb.vue'
+import Steps from './components/Steps.vue'
+
+// Layout
+import Container from './components/Container.vue'
+import Header from './components/Header.vue'
+import Aside from './components/Aside.vue'
+import Main from './components/Main.vue'
+import Footer from './components/Footer.vue'
+import Row from './components/Row.vue'
+import Col from './components/Col.vue'
+import Space from './components/Space.vue'
+import Divider from './components/Divider.vue'
 
 // Utilities
-export { default as Kbd } from './components/Kbd.vue'
-export { default as CopyButton } from './components/CopyButton.vue'
+import Kbd from './components/Kbd.vue'
+import CopyButton from './components/CopyButton.vue'
+
+// Re-export every component
+export {
+  MagneticButton, RippleButton, GlowCard, TiltCard, Spotlight,
+  GradientText, ScrollReveal, CountUp, Typewriter, AuroraBackground, Skeleton, BlurText, Marquee,
+  Input, Checkbox, RadioGroup, Radio, Switch, Slider, Select, Segmented, Rate,
+  Badge, Tag, Avatar, Progress, Carousel, Timeline, Table, Pagination, Tree, TreeNode,
+  Calendar, Descriptions, Empty, Image, Result, Link,
+  Dialog, Drawer, Alert, ToastContainer, Notification, Spinner, Collapse, CollapseItem, Loading, Backtop,
+  Tooltip, Popover, Dropdown, CommandPalette,
+  Tabs, Tab, Accordion, AccordionItem, Breadcrumb, Steps,
+  Container, Header, Aside, Main, Footer, Row, Col, Space, Divider,
+  Kbd, CopyButton
+}
 
 // Composables & utilities
 export {
@@ -77,3 +118,54 @@ export {
 export type { NotificationType, NotificationItem } from './notification'
 export { fireConfetti } from './confetti'
 export type { ConfettiOptions } from './confetti'
+export { useBreakpoint, pickResponsive } from './breakpoint'
+export type { Breakpoint } from './breakpoint'
+
+// Types
+export type { TableColumn } from './components/Table.vue'
+export type { AuraTreeItem } from './components/Tree.vue'
+export type { DescItem } from './components/Descriptions.vue'
+export type { SelectOption } from './components/Select.vue'
+
+// ---------------------------------------------------------------------------
+// Out-of-the-box: app.use(AuraUI) registers every component globally.
+// ---------------------------------------------------------------------------
+const componentMap: Record<string, Component> = {
+  MagneticButton, RippleButton, GlowCard, TiltCard, Spotlight,
+  GradientText, ScrollReveal, CountUp, Typewriter, AuroraBackground, Skeleton, BlurText, Marquee,
+  Input, Checkbox, RadioGroup, Radio, Switch, Slider, Select, Segmented, Rate,
+  Badge, Tag, Avatar, Progress, Carousel, Timeline, Table, Pagination, Tree, TreeNode,
+  Calendar, Descriptions, Empty, Image, Result, Link,
+  Dialog, Drawer, Alert, ToastContainer, Notification, Spinner, Collapse, CollapseItem, Loading, Backtop,
+  Tooltip, Popover, Dropdown, CommandPalette,
+  Tabs, Tab, Accordion, AccordionItem, Breadcrumb, Steps,
+  Container, Header, Aside, Main, Footer, Row, Col, Space, Divider,
+  Kbd, CopyButton
+}
+
+export function install(app: App): void {
+  Object.entries(componentMap).forEach(([name, comp]) => {
+    app.component(name, comp)
+  })
+}
+
+const AuraUI = { install }
+
+export default AuraUI
+
+/**
+ * Resolver for unplugin-vue-components (on-demand auto-import, no global registration).
+ * Add to your vite.config: components: [AuraUIResolver()]
+ */
+export function AuraUIResolver() {
+  const names = new Set(Object.keys(componentMap))
+  return {
+    type: 'component' as const,
+    resolve: (name: string) => {
+      if (names.has(name)) {
+        return { name, from: 'aura-ui' }
+      }
+      return undefined
+    }
+  }
+}

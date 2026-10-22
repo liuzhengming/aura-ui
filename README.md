@@ -10,7 +10,7 @@
 
 <p align="center">
   A Vue 3 component library crafted for silky micro-interactions and modern motion.<br />
-  Zero runtime dependencies · Fully typed · Dark by default, light included · Bilingual docs.
+  Zero runtime dependencies · Fully typed · Dark by default, light included · Mobile-ready · Bilingual docs.
 </p>
 
 <p align="center">
@@ -21,25 +21,29 @@
 
 ## Introduction
 
-Aura UI is a collection of Vue 3 components built around **micro-interactions and motion**. It
-gives interfaces a refined, "alive" feel with almost no effort: magnetic buttons, tilt cards,
-glow borders, a command palette, canvas confetti, and dozens more — all driven by native CSS
-and modern Web APIs, with **zero runtime dependencies** beyond Vue 3 itself.
+Aura UI is a collection of **69 Vue 3 components** built around **micro-interactions, motion and
+complete UI coverage**. It gives interfaces a refined, "alive" feel with almost no effort — magnetic
+buttons, tilt cards, glow borders, a command palette, canvas confetti, plus the full set of
+production-grade primitives (tables, forms, navigation, layout) you expect from a mature library
+such as Element Plus — all driven by native CSS and modern Web APIs, with **zero runtime
+dependencies** beyond Vue 3 itself.
 
-Every component ships with complete TypeScript typings, respects `prefers-reduced-motion`,
-and adapts to both dark and light themes through a single set of CSS custom properties. The
-live demo on this site doubles as the documentation: pick a component from the left menu and
-you get a live example, copy-paste usage, and the full prop reference — in either English or
-中文.
+Every component ships with complete TypeScript typings, respects `prefers-reduced-motion`, adapts
+to both dark and light themes through a single set of CSS custom properties, and is responsive out
+of the box (touch-friendly sizing, a 24-column grid, and safe-area support for mobile). The live
+demo on this site doubles as the documentation: pick a component from the left menu and you get a
+live example, copy-paste usage, and the full prop reference — in either English or 中文.
 
 ## Features
 
-- **46 components** across 8 categories: micro-interactions, motion, data entry, data display, feedback, overlay, navigation, and utilities
+- **69 components** across 9 categories: micro-interactions, motion &amp; effects, data entry, data display, feedback, overlay, navigation, layout, and utilities
 - **Zero runtime dependencies** (only Vue 3 itself)
 - **100% TypeScript** with complete `props` / `emits` typings
 - **Composition API** (`<script setup>`) throughout
+- **Out of the box**: `app.use(AuraUI)` registers everything globally, or use the `AuraUIResolver` for on-demand auto-import
+- **Mobile-ready**: responsive 24-column grid, touch-friendly tap targets, and `env(safe-area-inset-*)` support
 - **Theming by design**: dark is the default, light is one attribute away, every component adapts automatically
-- **Accessible**: built-in `prefers-reduced-motion` support and keyboard-navigable overlays
+- **Accessible**: built-in `prefers-reduced-motion` support, keyboard-navigable overlays, ARIA roles
 - **Bilingual documentation** (English / 中文) with live demos on every page
 - **Tree-shakable**: import only what you use
 
@@ -54,6 +58,8 @@ yarn add aura-ui
 ```
 
 ## Quick Start
+
+**Option A — explicit imports (tree-shakable, recommended):**
 
 Import the components you need and the bundled stylesheet once at your app entry:
 
@@ -80,7 +86,41 @@ import { MagneticButton, RippleButton, GlowCard } from 'aura-ui'
 </template>
 ```
 
-Toast and Notification use a composable API. Mount their containers once near your app root:
+**Option B — global registration (out of the box):**
+
+```ts
+// main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import AuraUI from 'aura-ui'
+import 'aura-ui/dist/style.css'
+
+createApp(App).use(AuraUI).mount('#app')
+```
+
+```vue
+<template>
+  <!-- components are globally available; no imports needed -->
+  <MagneticButton>Get Started</MagneticButton>
+</template>
+```
+
+**Option C — on-demand auto-import (no global registration, no manual imports):**
+
+```ts
+// vite.config.ts
+import Components from 'unplugin-vue-components/vite'
+import { AuraUIResolver } from 'aura-ui'
+
+export default {
+  plugins: [
+    Components({ resolvers: [AuraUIResolver()] })
+  ]
+}
+```
+
+Toast and Notification use a composable API. Mount their containers once near your app root
+(required in every install mode):
 
 ```vue
 <script setup lang="ts">
@@ -104,16 +144,19 @@ const notify = useNotification()
 | Category | Components |
 | --- | --- |
 | Micro-interactions | `MagneticButton`, `RippleButton`, `GlowCard`, `TiltCard`, `Spotlight` |
-| Motion &amp; display | `GradientText`, `ScrollReveal`, `CountUp`, `Typewriter`, `AuroraBackground`, `Skeleton`, `BlurText`, `Marquee` |
+| Motion &amp; effects | `GradientText`, `Typewriter`, `BlurText`, `ScrollReveal`, `AuroraBackground`, `Marquee`, `CountUp`, `Skeleton` |
 | Data entry | `Input`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Slider`, `Select`, `Segmented`, `Rate` |
-| Data display | `Badge`, `Tag`, `Avatar`, `Progress`, `Carousel`, `Timeline` |
-| Feedback | `Dialog`, `Drawer`, `Alert`, `ToastContainer`, `Notification`, `Spinner` |
+| Data display | `Badge`, `Tag`, `Avatar`, `Progress`, `Carousel`, `Timeline`, `Table`, `Pagination`, `Tree`, `Calendar`, `Descriptions`, `Empty`, `Image`, `Result`, `Link` |
+| Feedback | `Dialog`, `Drawer`, `Alert`, `ToastContainer`, `Notification`, `Spinner`, `Collapse`, `Loading`, `Backtop` |
 | Overlay | `Tooltip`, `Popover`, `Dropdown`, `CommandPalette` |
 | Navigation | `Tabs`, `Tab`, `Accordion`, `AccordionItem`, `Breadcrumb`, `Steps` |
-| Utilities | `Kbd`, `CopyButton` |
+| Layout | `Container`, `Header`, `Aside`, `Main`, `Footer`, `Row`, `Col`, `Space`, `Divider` |
+| Utilities | `Kbd`, `CopyButton`, `Confetti` |
 
 The library also exports composables and helpers: `useToast`, `useNotification`, `pushToast`,
-`pushNotification`, `fireConfetti`, plus their TypeScript types.
+`pushNotification`, `fireConfetti`, `useBreakpoint`, plus their TypeScript types
+(`ToastType`, `NotificationType`, `TableColumn`, `AuraTreeItem`, `DescItem`, `SelectOption`,
+`Breakpoint`, `ConfettiOptions`).
 
 ## Highlights
 
@@ -176,7 +219,7 @@ The snippets below reflect the real component APIs (the same ones the demo site 
 </Drawer>
 ```
 
-**Tabs / Accordion** — switchable and collapsible panels.
+**Tabs / Accordion / Collapse** — switchable and collapsible panels.
 
 ```vue
 <Tabs>
@@ -188,12 +231,26 @@ The snippets below reflect the real component APIs (the same ones the demo site 
   <AccordionItem id="a" title="What is Aura UI?">A motion-first Vue library.</AccordionItem>
   <AccordionItem id="b" title="Is it free?">Yes, MIT licensed.</AccordionItem>
 </Accordion>
+
+<Collapse :model-value="['a']">
+  <CollapseItem name="a" title="What is Aura UI?">A motion-first Vue library.</CollapseItem>
+  <CollapseItem name="b" title="Is it free?">Yes, MIT licensed.</CollapseItem>
+</Collapse>
 ```
 
 **CommandPalette** — a `Cmd/Ctrl + K` palette with full keyboard navigation.
 
 ```vue
 <CommandPalette v-model="open" :commands="commands" @select="run" />
+```
+
+**Table / Pagination / Tree / Calendar** — production-grade data display.
+
+```vue
+<Table :columns="columns" :data="rows" striped hover bordered />
+<Pagination v-model="page" :total="120" :page-size="10" />
+<Tree :data="treeData" default-expand-all />
+<Calendar v-model="date" />
 ```
 
 **Tooltip / Popover / Dropdown** — rich overlays anchored to a trigger.
@@ -211,6 +268,23 @@ The snippets below reflect the real component APIs (the same ones the demo site 
 <Dropdown :items="items" @select="onSelect">
   <RippleButton>Menu</RippleButton>
 </Dropdown>
+```
+
+**Layout grid (responsive)** — a 24-column grid plus layout containers.
+
+```vue
+<Row :gutter="16">
+  <Col :span="8"><div>span 8</div></Col>
+  <Col :span="8"><div>span 8</div></Col>
+  <Col :span="8"><div>span 8</div></Col>
+</Row>
+
+<!-- responsive: full width on mobile, third on desktop -->
+<Row :gutter="16">
+  <Col :xs="24" :md="12" :lg="8"><div>responsive</div></Col>
+  <Col :xs="24" :md="12" :lg="8"><div>responsive</div></Col>
+  <Col :xs="24" :md="12" :lg="8"><div>responsive</div></Col>
+</Row>
 ```
 
 **Progress / CountUp / Skeleton** — lively data display.
@@ -231,6 +305,21 @@ The snippets below reflect the real component APIs (the same ones the demo site 
 <ScrollReveal :delay="200" :y="40"><h2>Visible on scroll</h2></ScrollReveal>
 ```
 
+**Image (lazy + preview) / Result / Empty** — polished content states.
+
+```vue
+<Image src="/photo.jpg" width="200px" height="120px" radius="12px" preview />
+<Result status="success" title="Success" subtitle="Operation completed." />
+<Empty description="No results found" />
+```
+
+**Backtop / Loading** — feedback helpers.
+
+```vue
+<Backtop :visibility-height="200" />
+<Loading :loading="loading" tip="Loading..."><p>Content</p></Loading>
+```
+
 **Confetti** — a lightweight canvas burst you can fire from anywhere.
 
 ```ts
@@ -238,6 +327,15 @@ import { fireConfetti } from 'aura-ui'
 fireConfetti()
 fireConfetti({ count: 160, spread: 90 })
 ```
+
+## Mobile &amp; Responsive
+
+Aura UI is built mobile-first:
+
+- A reactive `useBreakpoint()` composable (`xs / sm / md / lg / xl / xxl`) powers the responsive `Row` / `Col` grid — set a span per breakpoint and the layout reflows automatically.
+- Tap targets use a `--aura-tap-min` token so buttons and controls are comfortable on touch screens.
+- `Backtop`, overlays and fixed elements respect `env(safe-area-inset-*)` so they clear notches and home indicators.
+- All components scale fluidly and the documentation site itself is responsive.
 
 ## Theming
 
@@ -264,6 +362,7 @@ Override any design token in your own stylesheet to match your brand:
   motion get a calm, static experience.
 - Overlays (Tooltip, Popover, Dropdown, CommandPalette) support keyboard navigation and
   focus management, and dismiss on `Esc` or outside click.
+- Interactive primitives use semantic elements and ARIA roles where appropriate.
 
 ## Project Structure
 
@@ -276,10 +375,12 @@ aura-ui/
 │   │   ├── toast.ts     # useToast store
 │   │   ├── notification.ts # useNotification store
 │   │   ├── confetti.ts  # fireConfetti util
-│   │   └── index.ts     # public entry / barrel
+│   │   ├── breakpoint.ts # useBreakpoint / pickResponsive
+│   │   ├── index.ts     # public entry / barrel (install + resolver)
+│   │   └── ...
 │   ├── docs/            # the documentation site (also the live demo)
 │   ├── App.vue          # docs shell: sidebar + content + TOC
-│   ├── style.css        # design tokens (dark default + light)
+│   ├── style.css        # design tokens (dark default + light + responsive)
 │   └── main.ts
 ├── index.html
 ├── vite.config.ts

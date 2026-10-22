@@ -63,6 +63,7 @@ const en: Dict = {
     overlay: 'Overlay',
     navigation: 'Navigation',
     motion: 'Motion & Backgrounds',
+    layout: 'Layout',
     utilities: 'Utilities',
     components: 'Components'
   },
@@ -110,7 +111,28 @@ const en: Dict = {
     aurora: { name: 'Aurora Background', desc: 'An animated aurora gradient backdrop.' },
     confetti: { name: 'Confetti', desc: 'A canvas confetti burst you can fire from anywhere.' },
     kbd: { name: 'Keyboard Key', desc: 'Render keyboard shortcuts as styled key caps.' },
-    copyButton: { name: 'Copy Button', desc: 'A button that copies given text and shows feedback.' }
+    copyButton: { name: 'Copy Button', desc: 'A button that copies given text and shows feedback.' },
+    container: { name: 'Container', desc: 'A flex layout container that switches to horizontal when an Aside is present.' },
+    header: { name: 'Header', desc: 'Top layout section for titles, navigation and actions.' },
+    aside: { name: 'Aside', desc: 'Side layout section, typically a navigation rail.' },
+    main: { name: 'Main', desc: 'The primary content area of a layout.' },
+    footer: { name: 'Footer', desc: 'Bottom layout section for footnotes and links.' },
+    row: { name: 'Row', desc: 'A 24-column responsive grid row with gutter, justify and align.' },
+    col: { name: 'Col', desc: 'A responsive grid column with span and offset per breakpoint.' },
+    space: { name: 'Space', desc: 'A flex wrapper that lays out children with consistent gaps.' },
+    divider: { name: 'Divider', desc: 'A horizontal or vertical separator, with optional centered text.' },
+    table: { name: 'Table', desc: 'A data table with per-cell slots, plus striped, bordered and hover states.' },
+    pagination: { name: 'Pagination', desc: 'A page navigator with compact ellipsis and v-model support.' },
+    tree: { name: 'Tree', desc: 'A hierarchical, expandable tree with smooth height transitions.' },
+    calendar: { name: 'Calendar', desc: 'A month-view date calendar with selection and easy navigation.' },
+    descriptions: { name: 'Descriptions', desc: 'A label/content definition list with responsive columns.' },
+    empty: { name: 'Empty', desc: 'A placeholder for empty states with a custom image and actions.' },
+    image: { name: 'Image', desc: 'An image with lazy loading and a tap-to-zoom preview overlay.' },
+    result: { name: 'Result', desc: 'A success/error/info result page with icon, title and actions.' },
+    link: { name: 'Link', desc: 'An accessible text link with type, underline and disabled states.' },
+    collapse: { name: 'Collapse', desc: 'Stacked collapsible panels with accordion and multi-expand modes.' },
+    backtop: { name: 'Backtop', desc: 'A floating button that scrolls the page back to top once scrolled.' },
+    loading: { name: 'Loading', desc: 'A spinner overlay that blocks content, or a fullscreen mask.' }
   }
 }
 
@@ -156,6 +178,7 @@ const zh: Dict = {
     overlay: '浮层',
     navigation: '导航',
     motion: '动效与背景',
+    layout: '布局',
     utilities: '工具',
     components: '组件'
   },
@@ -203,7 +226,28 @@ const zh: Dict = {
     aurora: { name: '极光背景', desc: '动画极光渐变背景。' },
     confetti: { name: '礼花', desc: '可在任意位置触发的 Canvas 礼花爆发。' },
     kbd: { name: '快捷键', desc: '将键盘快捷键渲染为时尚的按键样式。' },
-    copyButton: { name: '复制按钮', desc: '复制给定文本并显示反馈的按钮。' }
+    copyButton: { name: '复制按钮', desc: '复制给定文本并显示反馈的按钮。' },
+    container: { name: '布局容器', desc: '弹性布局容器，包含侧边栏时自动切换为横向排列。' },
+    header: { name: '顶栏', desc: '布局顶部区域，用于放置标题、导航与操作。' },
+    aside: { name: '侧边栏', desc: '布局侧边区域，通常作为导航栏。' },
+    main: { name: '内容区', desc: '布局的主要内容区域。' },
+    footer: { name: '底栏', desc: '布局底部区域，用于页脚信息与链接。' },
+    row: { name: '栅格行', desc: '24 栅格响应式行，支持间距、对齐与排布。' },
+    col: { name: '栅格列', desc: '响应式栅格列，支持按断点设置跨度与偏移。' },
+    space: { name: '间距容器', desc: '用统一间距排布子元素的弹性容器。' },
+    divider: { name: '分割线', desc: '横向或纵向分隔线，支持可选的居中文字。' },
+    table: { name: '表格', desc: '数据表格，单元格支持插槽，含斑马纹、边框与悬停态。' },
+    pagination: { name: '分页', desc: '带紧凑省略号与 v-model 的页码导航。' },
+    tree: { name: '树形控件', desc: '可展开的分层树，带平滑高度过渡。' },
+    calendar: { name: '日历', desc: '月视图日期日历，支持选择与导航。' },
+    descriptions: { name: '描述列表', desc: '标签/内容定义列表，支持响应式列数。' },
+    empty: { name: '空状态', desc: '空数据占位，支持自定义图标与操作。' },
+    image: { name: '图片', desc: '支持懒加载与点击放大预览的图片组件。' },
+    result: { name: '结果页', desc: '成功/错误/信息结果页，含图标、标题与操作。' },
+    link: { name: '链接', desc: '可访问的文本链接，支持类型、下划线与禁用态。' },
+    collapse: { name: '折叠面板', desc: '可折叠的堆叠面板，支持手风琴与多展开模式。' },
+    backtop: { name: '回到顶部', desc: '滚动后出现、点击平滑回到顶部的悬浮按钮。' },
+    loading: { name: '加载', desc: '用于遮罩内容与全屏蒙层的加载指示器。' }
   }
 }
 

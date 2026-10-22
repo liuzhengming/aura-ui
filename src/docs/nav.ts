@@ -55,7 +55,16 @@ export const nav: NavGroup[] = [
       { key: 'skeleton', page: 'DataDisplay' },
       { key: 'countUp', page: 'DataDisplay' },
       { key: 'carousel', page: 'DataDisplay' },
-      { key: 'timeline', page: 'DataDisplay' }
+      { key: 'timeline', page: 'DataDisplay' },
+      { key: 'table', page: 'DataDisplay' },
+      { key: 'pagination', page: 'DataDisplay' },
+      { key: 'tree', page: 'DataDisplay' },
+      { key: 'calendar', page: 'DataDisplay' },
+      { key: 'descriptions', page: 'DataDisplay' },
+      { key: 'empty', page: 'DataDisplay' },
+      { key: 'image', page: 'DataDisplay' },
+      { key: 'result', page: 'DataDisplay' },
+      { key: 'link', page: 'DataDisplay' }
     ]
   },
   {
@@ -66,7 +75,10 @@ export const nav: NavGroup[] = [
       { key: 'alert', page: 'Feedback' },
       { key: 'toast', page: 'Feedback' },
       { key: 'notification', page: 'Feedback' },
-      { key: 'spinner', page: 'Feedback' }
+      { key: 'spinner', page: 'Feedback' },
+      { key: 'collapse', page: 'Feedback' },
+      { key: 'loading', page: 'Feedback' },
+      { key: 'backtop', page: 'Feedback' }
     ]
   },
   {
@@ -94,6 +106,20 @@ export const nav: NavGroup[] = [
       { key: 'scrollReveal', page: 'Motion' },
       { key: 'aurora', page: 'Motion' },
       { key: 'confetti', page: 'Motion' }
+    ]
+  },
+  {
+    titleKey: 'layout',
+    items: [
+      { key: 'container', page: 'Layout' },
+      { key: 'header', page: 'Layout' },
+      { key: 'aside', page: 'Layout' },
+      { key: 'main', page: 'Layout' },
+      { key: 'footer', page: 'Layout' },
+      { key: 'row', page: 'Layout' },
+      { key: 'col', page: 'Layout' },
+      { key: 'space', page: 'Layout' },
+      { key: 'divider', page: 'Layout' }
     ]
   },
   {
