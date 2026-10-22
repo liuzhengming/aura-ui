@@ -21,7 +21,7 @@
 
 ## 项目简介
 
-Aura UI 是一套包含 **69 个 Vue 3 组件**的集合，围绕**微交互、动效与完整的 UI 覆盖**构建。
+Aura UI 是一套包含 **80 个 Vue 3 组件**的集合，围绕**微交互、动效与完整的 UI 覆盖**构建。
 它用极低的成本为界面注入精致的"生命力"：磁吸按钮、3D 倾斜卡片、跟随光晕、命令面板、Canvas 礼花，
 以及成熟库（如 Element Plus）所具备的一整套生产级基础组件（表格、表单、导航、布局）——全部由原生
 CSS 与现代 Web API 驱动，**除 Vue 3 本身外零运行时依赖**。
@@ -33,7 +33,7 @@ CSS 与现代 Web API 驱动，**除 Vue 3 本身外零运行时依赖**。
 
 ## 特性
 
-- **69 个组件**，覆盖 9 大分类：微交互、动效、数据录入、数据展示、反馈、浮层、导航、布局、工具
+- **80 个组件**，覆盖 10 大分类：微交互、动效、数据录入、数据展示、反馈、浮层、导航、布局、工具、全局配置
 - **零运行时依赖**（仅依赖 Vue 3 本身）
 - **100% TypeScript**，完整的 `props` / `emits` 类型
 - 全程使用 **Composition API**（`<script setup>`）
@@ -141,17 +141,18 @@ const notify = useNotification()
 | --- | --- |
 | 微交互 | `MagneticButton`、`RippleButton`、`GlowCard`、`TiltCard`、`Spotlight` |
 | 动效与展示 | `GradientText`、`Typewriter`、`BlurText`、`ScrollReveal`、`AuroraBackground`、`Marquee`、`CountUp`、`Skeleton` |
-| 数据录入 | `Input`、`Checkbox`、`RadioGroup`、`Radio`、`Switch`、`Slider`、`Select`、`Segmented`、`Rate` |
-| 数据展示 | `Badge`、`Tag`、`Avatar`、`Progress`、`Carousel`、`Timeline`、`Table`、`Pagination`、`Tree`、`Calendar`、`Descriptions`、`Empty`、`Image`、`Result`、`Link` |
-| 反馈 | `Dialog`、`Drawer`、`Alert`、`ToastContainer`、`Notification`、`Spinner`、`Collapse`、`Loading`、`Backtop` |
+| 数据录入 | `Input`、`Checkbox`、`RadioGroup`、`Radio`、`Switch`、`Slider`、`Select`、`Segmented`、`Rate`、`Form`、`FormItem`、`DatePicker`、`Upload` |
+| 数据展示 | `Badge`、`Tag`、`Avatar`、`Progress`、`Carousel`、`Timeline`、`Table`、`Pagination`、`Tree`、`Calendar`、`Descriptions`、`Empty`、`Image`、`Result`、`Link`、`Card`、`List`、`ListItem` |
+| 反馈 | `Dialog`、`Drawer`、`Alert`、`ToastContainer`、`Notification`、`Spinner`、`Collapse`、`Loading`、`Backtop`、`Popconfirm` |
 | 浮层 | `Tooltip`、`Popover`、`Dropdown`、`CommandPalette` |
-| 导航 | `Tabs`、`Tab`、`Accordion`、`AccordionItem`、`Breadcrumb`、`Steps` |
+| 导航 | `Tabs`、`Tab`、`Accordion`、`AccordionItem`、`Breadcrumb`、`Steps`、`Menu`、`MenuItem` |
 | 布局 | `Container`、`Header`、`Aside`、`Main`、`Footer`、`Row`、`Col`、`Space`、`Divider` |
 | 工具 | `Kbd`、`CopyButton`、`Confetti` |
+| 全局配置 | `ConfigProvider` |
 
 库另导出组合式与工具：`useToast`、`useNotification`、`pushToast`、`pushNotification`、`fireConfetti`、
 `useBreakpoint`，以及对应的 TypeScript 类型（`ToastType`、`NotificationType`、`TableColumn`、
-`AuraTreeItem`、`DescItem`、`SelectOption`、`Breakpoint`、`ConfettiOptions`）。
+`AuraTreeItem`、`DescItem`、`SelectOption`、`Breakpoint`、`ConfettiOptions`、`FormRule`）。
 
 ## 组件精选
 
@@ -321,6 +322,49 @@ const notify = useNotification()
 import { fireConfetti } from 'aura-ui'
 fireConfetti()
 fireConfetti({ count: 160, spread: 90 })
+```
+
+**Form / FormItem / DatePicker / Upload** —— 完整类型、零依赖的表单体系。
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Form, FormItem, DatePicker, Upload } from 'aura-ui'
+import type { FormRule } from 'aura-ui'
+
+const model = ref({ name: '', date: '', files: [] })
+const rules: Record<string, FormRule[]> = {
+  name: [{ required: true, message: '请输入名称' }]
+}
+</script>
+
+<template>
+  <Form :model="model" :rules="rules">
+    <FormItem label="名称" prop="name">
+      <Input v-model="model.name" />
+    </FormItem>
+    <FormItem label="日期" prop="date">
+      <DatePicker v-model="model.date" />
+    </FormItem>
+    <FormItem label="文件" prop="files">
+      <Upload v-model="model.files" multiple accept="image/*" />
+    </FormItem>
+  </Form>
+</template>
+```
+
+**ConfigProvider** —— 在单一根节点统一下发主题、尺寸与语言。
+
+```vue
+<script setup lang="ts">
+import { ConfigProvider } from 'aura-ui'
+</script>
+
+<template>
+  <ConfigProvider theme="dark" size="lg" locale="zh">
+    <YourApp />
+  </ConfigProvider>
+</template>
 ```
 
 ## 移动端与响应式

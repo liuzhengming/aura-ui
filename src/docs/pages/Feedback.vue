@@ -13,6 +13,7 @@ import Collapse from '../../lib/components/Collapse.vue'
 import CollapseItem from '../../lib/components/CollapseItem.vue'
 import Loading from '../../lib/components/Loading.vue'
 import Backtop from '../../lib/components/Backtop.vue'
+import Popconfirm from '../../lib/components/Popconfirm.vue'
 import { useToast } from '../../lib/toast'
 import { useNotification } from '../../lib/notification'
 
@@ -64,6 +65,17 @@ const backtopRows = [
   { name: 'right', type: 'string', default: "'24px'", desc: 'Distance from the right edge.' },
   { name: 'bottom', type: 'string', default: "'24px'", desc: 'Distance from the bottom edge.' },
   { name: 'target', type: 'string', default: 'window', desc: 'Selector of a scroll container.' }
+]
+
+const popconfirmCode = `<Popconfirm title="Delete this item?" confirm-text="Delete" cancel-text="Cancel" @confirm="onConfirm">
+  <button>Delete</button>
+</Popconfirm>`
+const popconfirmRows = [
+  { name: 'title', type: 'string', default: "'Are you sure?'", desc: 'Confirmation message.' },
+  { name: 'confirmText', type: 'string', default: "'Confirm'", desc: 'Confirm button label.' },
+  { name: 'cancelText', type: 'string', default: "'Cancel'", desc: 'Cancel button label.' },
+  { name: 'placement', type: "'top'|'bottom'|'left'|'right'", default: "'top'", desc: 'Popover side.' },
+  { name: '@confirm / @cancel', type: 'event', default: '—', desc: 'Emitted on action.' }
 ]
 
 const dialogOpen = ref(false)
@@ -265,6 +277,17 @@ const spinnerRows = [
         </div>
       </DemoBlock>
       <PropsTable :rows="backtopRows" />
+    </section>
+
+    <section :id="'popconfirm'" class="doc-sec">
+      <h2 class="doc-sec__title">{{ compName('popconfirm') }}</h2>
+      <p class="doc-sec__desc">{{ compDesc('popconfirm') }}</p>
+      <DemoBlock :title="t('ui.examples')" :description="compDesc('popconfirm')" :code="popconfirmCode">
+        <Popconfirm title="Delete this item?" confirm-text="Delete" cancel-text="Cancel">
+          <button class="demo-btn demo-btn--ghost" type="button">Delete</button>
+        </Popconfirm>
+      </DemoBlock>
+      <PropsTable :rows="popconfirmRows" />
     </section>
   </div>
 </template>

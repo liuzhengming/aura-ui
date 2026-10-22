@@ -20,6 +20,8 @@ import Empty from '../../lib/components/Empty.vue'
 import AuraImage from '../../lib/components/Image.vue'
 import Result from '../../lib/components/Result.vue'
 import Link from '../../lib/components/Link.vue'
+import List from '../../lib/components/List.vue'
+import ListItem from '../../lib/components/ListItem.vue'
 
 const tags = ref(['Vue', 'TypeScript', 'Motion'])
 function removeTag(i: number) {
@@ -262,6 +264,21 @@ const linkRows = [
   { name: 'underline', type: "'hover'|'always'|'never'", default: "'hover'", desc: 'Underline behavior.' },
   { name: 'disabled', type: 'boolean', default: 'false', desc: 'Disable the link.' }
 ]
+
+const listCode = `<List>
+  <ListItem title="Title" desc="Description">
+    <template #avatar><Avatar name="AB" /></template>
+    <template #action><Tag type="success">Done</Tag></template>
+  </ListItem>
+</List>`
+const listRows = [
+  { name: 'List.bordered', type: 'boolean', default: 'true', desc: 'Show outer border.' },
+  { name: 'List.split', type: 'boolean', default: 'true', desc: 'Divider between items.' },
+  { name: 'List.loading', type: 'boolean', default: 'false', desc: 'Show a loading state.' },
+  { name: 'ListItem.title', type: 'string', default: "''", desc: 'Row title.' },
+  { name: 'ListItem.desc', type: 'string', default: "''", desc: 'Row description.' },
+  { name: 'ListItem.avatar/extra/action', type: 'slot', default: '—', desc: 'Optional slots.' }
+]
 </script>
 
 <template>
@@ -467,6 +484,28 @@ const linkRows = [
         </div>
       </DemoBlock>
       <PropsTable :rows="linkRows" />
+    </section>
+
+    <section :id="'list'" class="doc-sec">
+      <h2 class="doc-sec__title">{{ compName('list') }}</h2>
+      <p class="doc-sec__desc">{{ compDesc('list') }}</p>
+      <DemoBlock :title="t('ui.examples')" :description="compDesc('list')" :code="listCode">
+        <List style="max-width: 460px">
+          <ListItem title="Aura UI" desc="69 components and counting">
+            <template #avatar><Avatar name="Aura" /></template>
+            <template #action><Tag type="success">Stable</Tag></template>
+          </ListItem>
+          <ListItem title="Nova Theme" desc="Dark by default, light on demand">
+            <template #avatar><Avatar name="Nova" /></template>
+            <template #action><Tag>Beta</Tag></template>
+          </ListItem>
+          <ListItem title="Pulse Motion" desc="Micro-interactions">
+            <template #avatar><Avatar name="Pulse" /></template>
+            <template #action><Tag type="info">New</Tag></template>
+          </ListItem>
+        </List>
+      </DemoBlock>
+      <PropsTable :rows="listRows" />
     </section>
   </div>
 </template>

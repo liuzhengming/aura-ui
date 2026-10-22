@@ -21,7 +21,7 @@
 
 ## Introduction
 
-Aura UI is a collection of **69 Vue 3 components** built around **micro-interactions, motion and
+Aura UI is a collection of **80 Vue 3 components** built around **micro-interactions, motion and
 complete UI coverage**. It gives interfaces a refined, "alive" feel with almost no effort — magnetic
 buttons, tilt cards, glow borders, a command palette, canvas confetti, plus the full set of
 production-grade primitives (tables, forms, navigation, layout) you expect from a mature library
@@ -36,7 +36,7 @@ live example, copy-paste usage, and the full prop reference — in either Englis
 
 ## Features
 
-- **69 components** across 9 categories: micro-interactions, motion &amp; effects, data entry, data display, feedback, overlay, navigation, layout, and utilities
+- **80 components** across 10 categories: micro-interactions, motion &amp; effects, data entry, data display, feedback, overlay, navigation, layout, utilities, and global configuration
 - **Zero runtime dependencies** (only Vue 3 itself)
 - **100% TypeScript** with complete `props` / `emits` typings
 - **Composition API** (`<script setup>`) throughout
@@ -145,18 +145,19 @@ const notify = useNotification()
 | --- | --- |
 | Micro-interactions | `MagneticButton`, `RippleButton`, `GlowCard`, `TiltCard`, `Spotlight` |
 | Motion &amp; effects | `GradientText`, `Typewriter`, `BlurText`, `ScrollReveal`, `AuroraBackground`, `Marquee`, `CountUp`, `Skeleton` |
-| Data entry | `Input`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Slider`, `Select`, `Segmented`, `Rate` |
-| Data display | `Badge`, `Tag`, `Avatar`, `Progress`, `Carousel`, `Timeline`, `Table`, `Pagination`, `Tree`, `Calendar`, `Descriptions`, `Empty`, `Image`, `Result`, `Link` |
-| Feedback | `Dialog`, `Drawer`, `Alert`, `ToastContainer`, `Notification`, `Spinner`, `Collapse`, `Loading`, `Backtop` |
+| Data entry | `Input`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Slider`, `Select`, `Segmented`, `Rate`, `Form`, `FormItem`, `DatePicker`, `Upload` |
+| Data display | `Badge`, `Tag`, `Avatar`, `Progress`, `Carousel`, `Timeline`, `Table`, `Pagination`, `Tree`, `Calendar`, `Descriptions`, `Empty`, `Image`, `Result`, `Link`, `Card`, `List`, `ListItem` |
+| Feedback | `Dialog`, `Drawer`, `Alert`, `ToastContainer`, `Notification`, `Spinner`, `Collapse`, `Loading`, `Backtop`, `Popconfirm` |
 | Overlay | `Tooltip`, `Popover`, `Dropdown`, `CommandPalette` |
-| Navigation | `Tabs`, `Tab`, `Accordion`, `AccordionItem`, `Breadcrumb`, `Steps` |
+| Navigation | `Tabs`, `Tab`, `Accordion`, `AccordionItem`, `Breadcrumb`, `Steps`, `Menu`, `MenuItem` |
 | Layout | `Container`, `Header`, `Aside`, `Main`, `Footer`, `Row`, `Col`, `Space`, `Divider` |
 | Utilities | `Kbd`, `CopyButton`, `Confetti` |
+| Global | `ConfigProvider` |
 
 The library also exports composables and helpers: `useToast`, `useNotification`, `pushToast`,
 `pushNotification`, `fireConfetti`, `useBreakpoint`, plus their TypeScript types
 (`ToastType`, `NotificationType`, `TableColumn`, `AuraTreeItem`, `DescItem`, `SelectOption`,
-`Breakpoint`, `ConfettiOptions`).
+`Breakpoint`, `ConfettiOptions`, `FormRule`).
 
 ## Highlights
 
@@ -326,6 +327,49 @@ The snippets below reflect the real component APIs (the same ones the demo site 
 import { fireConfetti } from 'aura-ui'
 fireConfetti()
 fireConfetti({ count: 160, spread: 90 })
+```
+
+**Form / FormItem / DatePicker / Upload** — a fully typed, dependency-free form system.
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Form, FormItem, DatePicker, Upload } from 'aura-ui'
+import type { FormRule } from 'aura-ui'
+
+const model = ref({ name: '', date: '', files: [] })
+const rules: Record<string, FormRule[]> = {
+  name: [{ required: true, message: 'Name is required' }]
+}
+</script>
+
+<template>
+  <Form :model="model" :rules="rules">
+    <FormItem label="Name" prop="name">
+      <Input v-model="model.name" />
+    </FormItem>
+    <FormItem label="Date" prop="date">
+      <DatePicker v-model="model.date" />
+    </FormItem>
+    <FormItem label="Files" prop="files">
+      <Upload v-model="model.files" multiple accept="image/*" />
+    </FormItem>
+  </Form>
+</template>
+```
+
+**ConfigProvider** — apply theme, size and locale from a single root.
+
+```vue
+<script setup lang="ts">
+import { ConfigProvider } from 'aura-ui'
+</script>
+
+<template>
+  <ConfigProvider theme="dark" size="lg" locale="zh">
+    <YourApp />
+  </ConfigProvider>
+</template>
 ```
 
 ## Mobile &amp; Responsive

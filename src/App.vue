@@ -16,6 +16,7 @@ import Navigation from './docs/pages/Navigation.vue'
 import Motion from './docs/pages/Motion.vue'
 import Layout from './docs/pages/Layout.vue'
 import Utilities from './docs/pages/Utilities.vue'
+import Advanced from './docs/pages/Advanced.vue'
 
 const pages: Record<string, any> = {
   GettingStarted,
@@ -29,7 +30,8 @@ const pages: Record<string, any> = {
   Navigation,
   Motion,
   Layout,
-  Utilities
+  Utilities,
+  Advanced
 }
 
 const lang = useLang()

@@ -5,6 +5,7 @@ import PropsTable from '../components/PropsTable.vue'
 import GlowCard from '../../lib/components/GlowCard.vue'
 import TiltCard from '../../lib/components/TiltCard.vue'
 import Spotlight from '../../lib/components/Spotlight.vue'
+import Card from '../../lib/components/Card.vue'
 
 const glowCode = `<GlowCard>
   <h3>Hover me</h3>
@@ -32,6 +33,21 @@ const tiltRows = [
   { name: 'glare', type: 'boolean', default: 'true', desc: 'Show the moving highlight.' }
 ]
 const spotlightRows = [{ name: '—', type: '—', desc: 'No props. Content goes through the default slot.' }]
+
+const cardCode = `<Card title="Project Aurora">
+  <p>Built with Vue 3 and TypeScript.</p>
+</Card>
+
+<Card title="Hover me" hoverable shadow="lg">
+  Lift on hover with a stronger shadow.
+</Card>`
+const cardRows = [
+  { name: 'title', type: 'string', default: "''", desc: 'Header title (or use #header slot).' },
+  { name: 'bordered', type: 'boolean', default: 'true', desc: 'Show the border.' },
+  { name: 'hoverable', type: 'boolean', default: 'false', desc: 'Lift and highlight on hover.' },
+  { name: 'shadow', type: "'none'|'sm'|'md'|'lg'", default: "'md'", desc: 'Elevation level.' },
+  { name: 'padding', type: 'string', default: "'20px'", desc: 'Inner padding.' }
+]
 </script>
 
 <template>
@@ -75,6 +91,22 @@ const spotlightRows = [{ name: '—', type: '—', desc: 'No props. Content goes
         </Spotlight>
       </DemoBlock>
       <PropsTable :rows="spotlightRows" />
+    </section>
+
+    <section :id="'card'" class="doc-sec">
+      <h2 class="doc-sec__title">{{ compName('card') }}</h2>
+      <p class="doc-sec__desc">{{ compDesc('card') }}</p>
+      <DemoBlock :title="t('ui.examples')" :description="compDesc('card')" :code="cardCode">
+        <div style="display: flex; gap: 16px; flex-wrap: wrap">
+          <Card title="Project Aurora" style="max-width: 240px">
+            <p style="margin: 0; color: var(--aura-text-dim)">Built with Vue 3 and TypeScript.</p>
+          </Card>
+          <Card title="Hover me" hoverable shadow="lg" style="max-width: 240px">
+            <p style="margin: 0; color: var(--aura-text-dim)">Lift on hover with a stronger shadow.</p>
+          </Card>
+        </div>
+      </DemoBlock>
+      <PropsTable :rows="cardRows" />
     </section>
   </div>
 </template>

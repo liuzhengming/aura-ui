@@ -42,7 +42,9 @@ export const nav: NavGroup[] = [
       { key: 'slider', page: 'Forms' },
       { key: 'select', page: 'Forms' },
       { key: 'segmented', page: 'Forms' },
-      { key: 'rate', page: 'Forms' }
+      { key: 'rate', page: 'Forms' },
+      { key: 'datePicker', page: 'Forms' },
+      { key: 'upload', page: 'Forms' }
     ]
   },
   {
@@ -64,7 +66,10 @@ export const nav: NavGroup[] = [
       { key: 'empty', page: 'DataDisplay' },
       { key: 'image', page: 'DataDisplay' },
       { key: 'result', page: 'DataDisplay' },
-      { key: 'link', page: 'DataDisplay' }
+      { key: 'link', page: 'DataDisplay' },
+      { key: 'card', page: 'DataDisplay' },
+      { key: 'list', page: 'DataDisplay' },
+      { key: 'listItem', page: 'DataDisplay' }
     ]
   },
   {
@@ -78,7 +83,8 @@ export const nav: NavGroup[] = [
       { key: 'spinner', page: 'Feedback' },
       { key: 'collapse', page: 'Feedback' },
       { key: 'loading', page: 'Feedback' },
-      { key: 'backtop', page: 'Feedback' }
+      { key: 'backtop', page: 'Feedback' },
+      { key: 'popconfirm', page: 'Feedback' }
     ]
   },
   {
@@ -97,7 +103,9 @@ export const nav: NavGroup[] = [
       { key: 'accordion', page: 'Navigation' },
       { key: 'breadcrumb', page: 'Navigation' },
       { key: 'steps', page: 'Navigation' },
-      { key: 'marquee', page: 'Navigation' }
+      { key: 'marquee', page: 'Navigation' },
+      { key: 'menu', page: 'Navigation' },
+      { key: 'menuItem', page: 'Navigation' }
     ]
   },
   {
@@ -128,6 +136,10 @@ export const nav: NavGroup[] = [
       { key: 'kbd', page: 'Utilities' },
       { key: 'copyButton', page: 'Utilities' }
     ]
+  },
+  {
+    titleKey: 'advanced',
+    items: [{ key: 'configProvider', page: 'Advanced' }]
   }
 ]
 

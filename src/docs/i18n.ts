@@ -65,6 +65,7 @@ const en: Dict = {
     motion: 'Motion & Backgrounds',
     layout: 'Layout',
     utilities: 'Utilities',
+    advanced: 'Advanced',
     components: 'Components'
   },
   comp: {
@@ -132,7 +133,18 @@ const en: Dict = {
     link: { name: 'Link', desc: 'An accessible text link with type, underline and disabled states.' },
     collapse: { name: 'Collapse', desc: 'Stacked collapsible panels with accordion and multi-expand modes.' },
     backtop: { name: 'Backtop', desc: 'A floating button that scrolls the page back to top once scrolled.' },
-    loading: { name: 'Loading', desc: 'A spinner overlay that blocks content, or a fullscreen mask.' }
+    loading: { name: 'Loading', desc: 'A spinner overlay that blocks content, or a fullscreen mask.' },
+    form: { name: 'Form', desc: 'A schema-driven form container with built-in validation, labels and layout control.' },
+    formItem: { name: 'Form Item', desc: 'A field wrapper that wires labels, rules and inline error messages.' },
+    menu: { name: 'Menu', desc: 'A responsive navigation menu with vertical/horizontal modes and a collapsible mobile drawer.' },
+    menuItem: { name: 'Menu Item', desc: 'A menu entry that supports nested submenus via children data.' },
+    card: { name: 'Card', desc: 'A flexible surface with header, body and footer slots, hover lift and shadow control.' },
+    list: { name: 'List', desc: 'A clean list container with split lines, loading and empty states.' },
+    listItem: { name: 'List Item', desc: 'A list row with avatar, title, description, extra and action slots.' },
+    datePicker: { name: 'Date Picker', desc: 'A calendar popover for picking a date, with a bottom sheet on mobile.' },
+    upload: { name: 'Upload', desc: 'Click or drag-and-drop file upload with image preview and a managed list.' },
+    popconfirm: { name: 'Popconfirm', desc: 'A popover that asks for confirmation before a dangerous action.' },
+    configProvider: { name: 'Config Provider', desc: 'Global configuration for theme, size and locale across the subtree.' }
   }
 }
 
@@ -180,6 +192,7 @@ const zh: Dict = {
     motion: '动效与背景',
     layout: '布局',
     utilities: '工具',
+    advanced: '进阶',
     components: '组件'
   },
   comp: {
@@ -247,7 +260,18 @@ const zh: Dict = {
     link: { name: '链接', desc: '可访问的文本链接，支持类型、下划线与禁用态。' },
     collapse: { name: '折叠面板', desc: '可折叠的堆叠面板，支持手风琴与多展开模式。' },
     backtop: { name: '回到顶部', desc: '滚动后出现、点击平滑回到顶部的悬浮按钮。' },
-    loading: { name: '加载', desc: '用于遮罩内容与全屏蒙层的加载指示器。' }
+    loading: { name: '加载', desc: '用于遮罩内容与全屏蒙层的加载指示器。' },
+    form: { name: '表单', desc: '内置校验、标签与布局控制的声明式表单容器。' },
+    formItem: { name: '表单项', desc: '负责标签、校验规则与内联错误信息的字段容器。' },
+    menu: { name: '菜单', desc: '响应式导航菜单，支持纵向/横向模式与移动端可折叠抽屉。' },
+    menuItem: { name: '菜单项', desc: '菜单条目，支持通过 children 数据嵌套子菜单。' },
+    card: { name: '卡片', desc: '灵活的表面容器，含头部、主体与底部插槽，支持悬浮抬升与阴影控制。' },
+    list: { name: '列表', desc: '干净的列表容器，支持分隔线、加载与空状态。' },
+    listItem: { name: '列表项', desc: '列表行，含头像、标题、描述、附加与操作插槽。' },
+    datePicker: { name: '日期选择器', desc: '用于选择日期的日历气泡，移动端以底部弹层呈现。' },
+    upload: { name: '上传', desc: '点击或拖拽上传文件，支持图片预览与列表管理。' },
+    popconfirm: { name: '气泡确认', desc: '在执行危险操作前弹出确认的气泡卡片。' },
+    configProvider: { name: '全局配置', desc: '为子树统一配置主题、尺寸与多语言。' }
   }
 }
 

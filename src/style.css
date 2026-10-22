@@ -15,6 +15,10 @@
   --aura-primary: #7c5cff;
   --aura-primary-2: #00d4ff;
   --aura-accent: #ff5c8a;
+  --aura-danger: #ff5c6c;
+  --aura-success: #3ddc84;
+  --aura-warning: #ffb020;
+  --aura-info: #4ad9ff;
   --aura-gradient: linear-gradient(120deg, #7c5cff 0%, #00d4ff 55%, #ff5c8a 100%);
 
   /* 圆角 */
@@ -149,6 +153,11 @@ h1, h2, h3, h4, p {
   --aura-text: #16161f;
   --aura-text-dim: #56566a;
   --aura-text-faint: #8a8a9a;
+
+  --aura-danger: #e03131;
+  --aura-success: #2f9e44;
+  --aura-warning: #e8971f;
+  --aura-info: #1c7ed6;
 
   --aura-shadow: 0 24px 70px -28px rgba(20, 22, 50, 0.28);
   --aura-shadow-glow: 0 16px 50px -16px rgba(124, 92, 255, 0.4);

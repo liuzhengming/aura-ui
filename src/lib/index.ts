@@ -87,6 +87,29 @@ import Divider from './components/Divider.vue'
 import Kbd from './components/Kbd.vue'
 import CopyButton from './components/CopyButton.vue'
 
+// Form
+import Form from './components/Form.vue'
+import FormItem from './components/FormItem.vue'
+
+// Navigation
+import Menu from './components/Menu.vue'
+import MenuItem from './components/MenuItem.vue'
+
+// Data display
+import Card from './components/Card.vue'
+import List from './components/List.vue'
+import ListItem from './components/ListItem.vue'
+
+// Data entry
+import DatePicker from './components/DatePicker.vue'
+import Upload from './components/Upload.vue'
+
+// Feedback
+import Popconfirm from './components/Popconfirm.vue'
+
+// Global
+import ConfigProvider from './components/ConfigProvider.vue'
+
 // Re-export every component
 export {
   MagneticButton, RippleButton, GlowCard, TiltCard, Spotlight,
@@ -98,7 +121,9 @@ export {
   Tooltip, Popover, Dropdown, CommandPalette,
   Tabs, Tab, Accordion, AccordionItem, Breadcrumb, Steps,
   Container, Header, Aside, Main, Footer, Row, Col, Space, Divider,
-  Kbd, CopyButton
+  Kbd, CopyButton,
+  Form, FormItem, Menu, MenuItem, Card, List, ListItem,
+  DatePicker, Upload, Popconfirm, ConfigProvider
 }
 
 // Composables & utilities
@@ -126,6 +151,7 @@ export type { TableColumn } from './components/Table.vue'
 export type { AuraTreeItem } from './components/Tree.vue'
 export type { DescItem } from './components/Descriptions.vue'
 export type { SelectOption } from './components/Select.vue'
+export type { FormRule } from './components/FormItem.vue'
 
 // ---------------------------------------------------------------------------
 // Out-of-the-box: app.use(AuraUI) registers every component globally.
@@ -140,7 +166,9 @@ const componentMap: Record<string, Component> = {
   Tooltip, Popover, Dropdown, CommandPalette,
   Tabs, Tab, Accordion, AccordionItem, Breadcrumb, Steps,
   Container, Header, Aside, Main, Footer, Row, Col, Space, Divider,
-  Kbd, CopyButton
+  Kbd, CopyButton,
+  Form, FormItem, Menu, MenuItem, Card, List, ListItem,
+  DatePicker, Upload, Popconfirm, ConfigProvider
 }
 
 export function install(app: App): void {

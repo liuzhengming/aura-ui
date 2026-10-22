@@ -9,6 +9,8 @@ import AccordionItem from '../../lib/components/AccordionItem.vue'
 import Breadcrumb from '../../lib/components/Breadcrumb.vue'
 import Steps from '../../lib/components/Steps.vue'
 import Marquee from '../../lib/components/Marquee.vue'
+import Menu from '../../lib/components/Menu.vue'
+import MenuItem from '../../lib/components/MenuItem.vue'
 import Tag from '../../lib/components/Tag.vue'
 
 const crumbs = [
@@ -68,6 +70,23 @@ const marqueeRows = [
   { name: 'direction', type: "'left'|'right'", default: "'left'", desc: 'Scroll direction.' },
   { name: 'pauseOnHover', type: 'boolean', default: 'true', desc: 'Pause on hover.' },
   { name: 'gap', type: 'number', default: '16', desc: 'Gap between items in px.' }
+]
+
+const menuCode = `<Menu default-active="home">
+  <MenuItem item-key="home" label="Home" />
+  <MenuItem item-key="components" label="Components" :children="[
+    { itemKey: 'buttons', label: 'Buttons' },
+    { itemKey: 'forms', label: 'Forms' }
+  ]" />
+  <MenuItem item-key="docs" label="Docs" />
+</Menu>`
+const menuRows = [
+  { name: 'Menu.mode', type: "'horizontal'|'vertical'", default: "'vertical'", desc: 'Layout direction.' },
+  { name: 'Menu.collapsible', type: 'boolean', default: 'false', desc: 'Add a toggle and auto-collapse on mobile.' },
+  { name: 'Menu.defaultActive', type: 'string', default: "''", desc: 'Initially active item key.' },
+  { name: 'MenuItem.itemKey', type: 'string', default: "''", desc: 'Unique key.' },
+  { name: 'MenuItem.label', type: 'string', default: "''", desc: 'Display text.' },
+  { name: 'MenuItem.children', type: 'MenuItem[]', default: '[]', desc: 'Submenu entries (recursive).' }
 ]
 </script>
 
@@ -142,6 +161,28 @@ const marqueeRows = [
         </Marquee>
       </DemoBlock>
       <PropsTable :rows="marqueeRows" />
+    </section>
+
+    <section :id="'menu'" class="doc-sec">
+      <h2 class="doc-sec__title">{{ compName('menu') }}</h2>
+      <p class="doc-sec__desc">{{ compDesc('menu') }}</p>
+      <DemoBlock :title="t('ui.examples')" :description="compDesc('menu')" :code="menuCode">
+        <div style="display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-start">
+          <Menu default-active="home" style="width: 220px">
+            <MenuItem item-key="home" label="Home" />
+            <MenuItem item-key="components" label="Components" :children="[
+              { itemKey: 'buttons', label: 'Buttons' },
+              { itemKey: 'forms', label: 'Forms' }
+            ]" />
+            <MenuItem item-key="docs" label="Docs" />
+          </Menu>
+          <Menu mode="horizontal" default-active="docs">
+            <MenuItem item-key="home" label="Home" />
+            <MenuItem item-key="docs" label="Docs" />
+          </Menu>
+        </div>
+      </DemoBlock>
+      <PropsTable :rows="menuRows" />
     </section>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
+import type { FormRule } from '../../lib/components/FormItem.vue'
 import { compName, compDesc, t } from '../i18n'
 import DemoBlock from '../components/DemoBlock.vue'
 import PropsTable from '../components/PropsTable.vue'
@@ -12,6 +13,10 @@ import Slider from '../../lib/components/Slider.vue'
 import Select from '../../lib/components/Select.vue'
 import Segmented from '../../lib/components/Segmented.vue'
 import Rate from '../../lib/components/Rate.vue'
+import Form from '../../lib/components/Form.vue'
+import FormItem from '../../lib/components/FormItem.vue'
+import DatePicker from '../../lib/components/DatePicker.vue'
+import Upload from '../../lib/components/Upload.vue'
 
 const name = ref('')
 const agree = ref(true)
@@ -111,6 +116,58 @@ const rateRows = [
   { name: 'count', type: 'number', default: '5', desc: 'Number of stars.' },
   { name: 'allowHalf', type: 'boolean', default: 'false', desc: 'Allow half-star selection.' }
 ]
+
+const formModel = reactive({ name: '', email: '', plan: 'pro', newsletter: true })
+const formRules: Record<string, FormRule[]> = {
+  name: [{ required: true, message: 'Please enter your name' }],
+  email: [{ required: true, type: 'email', message: 'Enter a valid email address' }]
+}
+const formRef = ref<any>(null)
+const submitted = ref('')
+async function submitForm() {
+  const ok = await formRef.value?.validate()
+  submitted.value = ok ? 'Form is valid — submitted.' : 'Please fix the highlighted errors.'
+}
+function resetForm() {
+  formRef.value?.resetFields()
+  submitted.value = ''
+}
+const formCode = `<Form ref="formRef" :model="model" :rules="rules">
+  <FormItem prop="name" label="Name">
+    <Input v-model="model.name" placeholder="Type here" />
+  </FormItem>
+  <FormItem prop="email" label="Email">
+    <Input v-model="model.email" type="email" />
+  </FormItem>
+  <FormItem>
+    <button @click="formRef.validate()">Submit</button>
+  </FormItem>
+</Form>`
+const formRows = [
+  { name: 'model', type: 'Record<string, any>', default: '—', desc: 'Form data object (reactive).' },
+  { name: 'rules', type: 'Record<string, FormRule[]>', default: '{}', desc: 'Validation rules keyed by prop.' },
+  { name: 'labelPosition', type: "'top' | 'left'", default: "'top'", desc: 'Label placement.' },
+  { name: 'FormItem.prop', type: 'string', default: '—', desc: 'Field key to bind rules.' },
+  { name: 'FormItem.label', type: 'string', default: "''", desc: 'Field label.' },
+  { name: 'FormItem.rules', type: 'FormRule[]', default: '[]', desc: 'Per-field rules override.' }
+]
+
+const pickedDate = ref('')
+const dateCode = `<DatePicker v-model="pickedDate" placeholder="Pick a date" />`
+const dateRows = [
+  { name: 'modelValue', type: 'string', default: "''", desc: 'Selected date YYYY-MM-DD (v-model).' },
+  { name: 'placeholder', type: 'string', default: "'Select date'", desc: 'Trigger placeholder.' },
+  { name: 'disabled', type: 'boolean', default: 'false', desc: 'Disable the picker.' }
+]
+
+const uploadCode = `<Upload multiple accept="image/*" :max-size="5" @change="onFiles" />
+<!-- drag and drop is supported automatically -->`
+const uploadRows = [
+  { name: 'multiple', type: 'boolean', default: 'false', desc: 'Allow selecting multiple files.' },
+  { name: 'accept', type: 'string', default: "''", desc: 'Native accept filter.' },
+  { name: 'maxSize', type: 'number', default: '0', desc: 'Max file size in MB (0 = no limit).' },
+  { name: '@change', type: '(files) => void', default: '—', desc: 'Emitted with the managed file list.' }
+]
 </script>
 
 <template>
@@ -207,6 +264,53 @@ const rateRows = [
         </div>
       </DemoBlock>
       <PropsTable :rows="rateRows" />
+    </section>
+
+    <section :id="'form'" class="doc-sec">
+      <h2 class="doc-sec__title">{{ compName('form') }}</h2>
+      <p class="doc-sec__desc">{{ compDesc('form') }}</p>
+      <DemoBlock :title="t('ui.examples')" :description="compDesc('form')" :code="formCode">
+        <Form ref="formRef" :model="formModel" :rules="formRules" style="max-width: 440px">
+          <FormItem prop="name" label="Name">
+            <Input v-model="formModel.name" label="Your name" placeholder="Type here" />
+          </FormItem>
+          <FormItem prop="email" label="Email">
+            <Input v-model="formModel.email" label="Email" type="email" placeholder="you@example.com" />
+          </FormItem>
+          <FormItem prop="plan" label="Plan">
+            <RadioGroup v-model="formModel.plan">
+              <Radio value="free" label="Free" />
+              <Radio value="pro" label="Pro" />
+            </RadioGroup>
+          </FormItem>
+          <FormItem>
+            <div style="display: flex; gap: 10px">
+              <button class="demo-btn" type="button" @click="submitForm">Submit</button>
+              <button class="demo-btn demo-btn--ghost" type="button" @click="resetForm">Reset</button>
+            </div>
+          </FormItem>
+          <p v-if="submitted" style="margin: 4px 0 0; color: var(--aura-text-dim)">{{ submitted }}</p>
+        </Form>
+      </DemoBlock>
+      <PropsTable :rows="formRows" />
+    </section>
+
+    <section :id="'datePicker'" class="doc-sec">
+      <h2 class="doc-sec__title">{{ compName('datePicker') }}</h2>
+      <p class="doc-sec__desc">{{ compDesc('datePicker') }}</p>
+      <DemoBlock :title="t('ui.examples')" :description="compDesc('datePicker')" :code="dateCode">
+        <DatePicker v-model="pickedDate" />
+      </DemoBlock>
+      <PropsTable :rows="dateRows" />
+    </section>
+
+    <section :id="'upload'" class="doc-sec">
+      <h2 class="doc-sec__title">{{ compName('upload') }}</h2>
+      <p class="doc-sec__desc">{{ compDesc('upload') }}</p>
+      <DemoBlock :title="t('ui.examples')" :description="compDesc('upload')" :code="uploadCode">
+        <Upload multiple accept="image/*" :max-size="5" style="max-width: 460px" />
+      </DemoBlock>
+      <PropsTable :rows="uploadRows" />
     </section>
   </div>
 </template>
