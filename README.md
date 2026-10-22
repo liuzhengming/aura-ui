@@ -146,7 +146,7 @@ const notify = useNotification()
 | --- | --- |
 | Micro-interactions | `MagneticButton`, `RippleButton`, `GlowCard`, `TiltCard`, `Spotlight` |
 | Motion &amp; effects | `GradientText`, `Typewriter`, `BlurText`, `ScrollReveal`, `AuroraBackground`, `Marquee`, `CountUp`, `Skeleton` |
-| Data entry | `Input`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Slider`, `Select`, `Segmented`, `Rate`, `Form`, `FormItem`, `DatePicker`, `Upload` |
+| Data entry | `Input`, `Checkbox`, `CheckboxGroup`, `RadioGroup`, `Radio`, `Switch`, `Slider`, `Select`, `Segmented`, `Rate`, `Form`, `FormItem`, `DatePicker`, `Upload` |
 | Data display | `Badge`, `Tag`, `Avatar`, `Progress`, `Carousel`, `Timeline`, `Table`, `Pagination`, `Tree`, `Calendar`, `Descriptions`, `Empty`, `Image`, `Result`, `Link`, `Card`, `List`, `ListItem` |
 | Feedback | `Dialog`, `Drawer`, `Alert`, `ToastContainer`, `Notification`, `Spinner`, `Collapse`, `Loading`, `Backtop`, `Popconfirm` |
 | Overlay | `Tooltip`, `Popover`, `Dropdown`, `CommandPalette` |

@@ -141,7 +141,7 @@ const notify = useNotification()
 | --- | --- |
 | 微交互 | `MagneticButton`、`RippleButton`、`GlowCard`、`TiltCard`、`Spotlight` |
 | 动效与展示 | `GradientText`、`Typewriter`、`BlurText`、`ScrollReveal`、`AuroraBackground`、`Marquee`、`CountUp`、`Skeleton` |
-| 数据录入 | `Input`、`Checkbox`、`RadioGroup`、`Radio`、`Switch`、`Slider`、`Select`、`Segmented`、`Rate`、`Form`、`FormItem`、`DatePicker`、`Upload` |
+| 数据录入 | `Input`、`Checkbox`、`CheckboxGroup`、`RadioGroup`、`Radio`、`Switch`、`Slider`、`Select`、`Segmented`、`Rate`、`Form`、`FormItem`、`DatePicker`、`Upload` |
 | 数据展示 | `Badge`、`Tag`、`Avatar`、`Progress`、`Carousel`、`Timeline`、`Table`、`Pagination`、`Tree`、`Calendar`、`Descriptions`、`Empty`、`Image`、`Result`、`Link`、`Card`、`List`、`ListItem` |
 | 反馈 | `Dialog`、`Drawer`、`Alert`、`ToastContainer`、`Notification`、`Spinner`、`Collapse`、`Loading`、`Backtop`、`Popconfirm` |
 | 浮层 | `Tooltip`、`Popover`、`Dropdown`、`CommandPalette` |

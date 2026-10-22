@@ -20,6 +20,7 @@ import Marquee from './components/Marquee.vue'
 // Data entry
 import Input from './components/Input.vue'
 import Checkbox from './components/Checkbox.vue'
+import CheckboxGroup from './components/CheckboxGroup.vue'
 import RadioGroup from './components/RadioGroup.vue'
 import Radio from './components/Radio.vue'
 import Switch from './components/Switch.vue'
@@ -114,7 +115,7 @@ import ConfigProvider from './components/ConfigProvider.vue'
 export {
   MagneticButton, RippleButton, GlowCard, TiltCard, Spotlight,
   GradientText, ScrollReveal, CountUp, Typewriter, AuroraBackground, Skeleton, BlurText, Marquee,
-  Input, Checkbox, RadioGroup, Radio, Switch, Slider, Select, Segmented, Rate,
+  Input, Checkbox, CheckboxGroup, RadioGroup, Radio, Switch, Slider, Select, Segmented, Rate,
   Badge, Tag, Avatar, Progress, Carousel, Timeline, Table, Pagination, Tree, TreeNode,
   Calendar, Descriptions, Empty, Image, Result, Link,
   Dialog, Drawer, Alert, ToastContainer, Notification, Spinner, Collapse, CollapseItem, Loading, Backtop,
@@ -159,7 +160,7 @@ export type { FormRule } from './components/FormItem.vue'
 const componentMap: Record<string, Component> = {
   MagneticButton, RippleButton, GlowCard, TiltCard, Spotlight,
   GradientText, ScrollReveal, CountUp, Typewriter, AuroraBackground, Skeleton, BlurText, Marquee,
-  Input, Checkbox, RadioGroup, Radio, Switch, Slider, Select, Segmented, Rate,
+  Input, Checkbox, CheckboxGroup, RadioGroup, Radio, Switch, Slider, Select, Segmented, Rate,
   Badge, Tag, Avatar, Progress, Carousel, Timeline, Table, Pagination, Tree, TreeNode,
   Calendar, Descriptions, Empty, Image, Result, Link,
   Dialog, Drawer, Alert, ToastContainer, Notification, Spinner, Collapse, CollapseItem, Loading, Backtop,

@@ -1,6 +1,6 @@
 {
   "name": "@zhengming365/aura-ui",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "description": "Aura UI - a Vue 3 component library crafted for silky micro-interactions and modern motion. Zero runtime dependencies, fully typed, mobile-ready, dark by default.",
   "keywords": [

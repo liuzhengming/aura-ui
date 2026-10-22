@@ -1,34 +1,55 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { inject, computed } from 'vue'
 
 const props = withDefaults(
-  defineProps<{ modelValue?: boolean; label?: string; disabled?: boolean }>(),
+  defineProps<{
+    modelValue?: boolean
+    value?: string | number
+    label?: string
+    disabled?: boolean
+  }>(),
   { modelValue: false, disabled: false }
 )
 
 const emit = defineEmits<{ (e: 'update:modelValue', v: boolean): void }>()
 
-const checkRef = ref<SVGPathElement | null>(null)
+interface CheckboxGroup {
+  value: { value: (string | number)[] }
+  includes: (v: string | number) => boolean
+  toggle: (v: string | number) => void
+  disabled: { value: boolean }
+}
+
+const group = inject<CheckboxGroup | null>('auraCheckboxGroup', null)
+
+const inGroup = computed(() => !!group && props.value !== undefined)
+const checked = computed(() =>
+  inGroup.value ? group!.includes(props.value as string | number) : props.modelValue
+)
+const disabled = computed(() => props.disabled || (inGroup.value && group!.disabled.value))
 
 function toggle() {
-  if (props.disabled) return
-  emit('update:modelValue', !props.modelValue)
+  if (disabled.value) return
+  if (inGroup.value) {
+    group!.toggle(props.value as string | number)
+  } else {
+    emit('update:modelValue', !props.modelValue)
+  }
 }
 </script>
 
 <template>
-  <label class="aura-checkbox" :class="{ 'is-checked': modelValue, disabled }">
+  <label class="aura-checkbox" :class="{ 'is-checked': checked, disabled }">
     <input
       class="aura-checkbox__native"
       type="checkbox"
-      :checked="modelValue"
+      :checked="checked"
       :disabled="disabled"
       @change="toggle"
     />
     <span class="aura-checkbox__box" @click="toggle">
       <svg viewBox="0 0 24 24" class="aura-checkbox__svg">
         <path
-          ref="checkRef"
           d="M5 12.5 L10 17.5 L19 7"
           fill="none"
           stroke="currentColor"
@@ -36,7 +57,7 @@ function toggle() {
           stroke-linecap="round"
           stroke-linejoin="round"
           class="aura-checkbox__tick"
-          :class="{ 'is-on': modelValue }"
+          :class="{ 'is-on': checked }"
         />
       </svg>
     </span>

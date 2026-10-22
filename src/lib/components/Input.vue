@@ -7,9 +7,10 @@ const props = withDefaults(
     label?: string
     placeholder?: string
     type?: string
+    rows?: number
     disabled?: boolean
   }>(),
-  { modelValue: '', placeholder: '', type: 'text', disabled: false }
+  { modelValue: '', placeholder: '', type: 'text', rows: 3, disabled: false }
 )
 
 const emit = defineEmits<{ (e: 'update:modelValue', v: string): void }>()
@@ -17,17 +18,39 @@ const emit = defineEmits<{ (e: 'update:modelValue', v: string): void }>()
 const focused = ref(false)
 const hasValue = computed(() => props.modelValue.length > 0)
 const floated = computed(() => focused.value || hasValue.value)
+const isTextarea = computed(() => props.type === 'textarea')
+
+function onInput(e: Event) {
+  emit('update:modelValue', (e.target as HTMLInputElement | HTMLTextAreaElement).value)
+}
 </script>
 
 <template>
   <div
     class="aura-input"
-    :class="{ 'is-focused': focused, 'is-filled': hasValue, 'is-disabled': disabled }"
+    :class="{
+      'is-focused': focused,
+      'is-filled': hasValue,
+      'is-disabled': disabled,
+      'is-textarea': isTextarea
+    }"
   >
     <label v-if="label" class="aura-input__label" :class="{ 'is-float': floated }">
       {{ label }}
     </label>
+    <textarea
+      v-if="isTextarea"
+      class="aura-input__field aura-input__textarea"
+      :value="modelValue"
+      :rows="rows"
+      :placeholder="floated ? placeholder : ''"
+      :disabled="disabled"
+      @focus="focused = true"
+      @blur="focused = false"
+      @input="onInput"
+    />
     <input
+      v-else
       class="aura-input__field"
       :type="type"
       :value="modelValue"
@@ -35,7 +58,7 @@ const floated = computed(() => focused.value || hasValue.value)
       :disabled="disabled"
       @focus="focused = true"
       @blur="focused = false"
-      @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      @input="onInput"
     />
   </div>
 </template>
@@ -85,5 +108,12 @@ const floated = computed(() => focused.value || hasValue.value)
 }
 .aura-input__field::placeholder {
   color: var(--aura-text-faint);
+}
+.aura-input__textarea {
+  display: block;
+  min-height: 84px;
+  line-height: 1.55;
+  resize: vertical;
+  padding: 2px 0;
 }
 </style>
